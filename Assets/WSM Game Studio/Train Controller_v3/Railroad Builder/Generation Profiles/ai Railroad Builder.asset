@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05181654efbad8a439d70e3e9969b61c, type: 3}
   m_Name: ai Railroad Builder
   m_EditorClassIdentifier: 
-  cullingRatio: 0.05
+  cullingRatio: 0
   baseMeshLODS:
-  - {fileID: 4713386643548462009, guid: 904c692aa767db0499d6aa1283be36f2, type: 3}
-  - {fileID: 4713386643548462009, guid: 904c692aa767db0499d6aa1283be36f2, type: 3}
   - {fileID: 4713386643548462009, guid: 904c692aa767db0499d6aa1283be36f2, type: 3}
   materials:
   - {fileID: 2100000, guid: 9a02e88f1ce5b8d4eaa08fd89b9d672c, type: 2}
