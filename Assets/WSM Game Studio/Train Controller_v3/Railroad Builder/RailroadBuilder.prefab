@@ -29,7 +29,6 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4603546415371320}
   - {fileID: 4832133749382158}
@@ -140,13 +139,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spline: {fileID: 114552943951133456}
   _meshGenerationMethod: 0
-  _meshGenerationProfile: {fileID: 11400000, guid: 3c653761cc715b846b5f2cc3e5749682,
+  _meshGenerationProfile: {fileID: 11400000, guid: 2fea1bb15623ce74989ad2a96c4e84aa,
     type: 2}
   _meshOffset: {x: 0, y: 0, z: 0}
   _autoSplit: 1
   _verticesLimit: 65000
-  _startCap: 0
-  _endCap: 0
+  _startCap: 1
+  _endCap: 1
 --- !u!1 &1877619236239630
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,7 +172,6 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 99.59994}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4895926433999092}
   m_RootOrder: 0
@@ -204,7 +202,6 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 100}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4895926433999092}
   m_RootOrder: 1

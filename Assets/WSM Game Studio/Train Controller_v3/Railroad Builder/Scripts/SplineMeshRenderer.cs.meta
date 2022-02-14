@@ -1,12 +1,11 @@
 fileFormatVersion: 2
 guid: c8a55564b976d0546b4d7118ed2dbcd9
+timeCreated: 1538144692
+licenseType: Store
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - _spline: {instanceID: 0}
-  - _meshGenerationProfile: {fileID: 11400000, guid: 3c653761cc715b846b5f2cc3e5749682,
-      type: 2}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
