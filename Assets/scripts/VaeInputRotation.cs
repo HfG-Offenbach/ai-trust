@@ -11,8 +11,12 @@ public class VaeInputRotation : MonoBehaviour
         
     }
 
+    [SerializeField] private Vector3 _rotation;
+
     // Update is called once per frame
     void Update()
     {
+        transform.Rotate(_rotation * Time.deltaTime);
+        // transform.Rotate(0, 1 * Time.deltaTime,0);
     }
 }
