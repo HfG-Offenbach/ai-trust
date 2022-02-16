@@ -85,7 +85,6 @@ public class HMI_display_brake_red : MonoBehaviour
         }
 
 
-
         // Debug.Log("Speed: " + speed.ToString("F2"));
         // Debug.Log("acceleration: " + acceleration);
         

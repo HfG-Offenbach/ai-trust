@@ -6,15 +6,14 @@ namespace WSMGameStudio.RailroadSystem
 {
 public class SceneControl : MonoBehaviour
 {
-    public bool _engineOn;
-    public float _maxSpeed;
+//     public bool _engineOn;
+//     public float _maxSpeed;
 
     // Start is called before the first frame update
     void Start()
     {
         GameObject Shuttle = GameObject.Find("Shuttle");
         Shuttle.GetComponent<SplineBasedLocomotive>().enabled = false;
-        
         StartCoroutine(waiter());
     }
 
@@ -25,13 +24,16 @@ public class SceneControl : MonoBehaviour
 
         GameObject Shuttle = GameObject.Find("Shuttle");
         Shuttle.GetComponent<SplineBasedLocomotive>().enabled = true;
-        GameObject OnBoarding_display = GameObject.Find("OnBoarding");
-        OnBoarding_display.SetActive(false);
+        if (GameObject.Find("OnBoarding")){
+            GameObject OnBoarding_display = GameObject.Find("OnBoarding");
+            OnBoarding_display.SetActive(false);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+
         // activate / deactivate GREEN DISPLAY
         if (Input.GetKeyUp(KeyCode.Alpha1)){
             GameObject GreenDisplay = GameObject.Find("screen_green");
