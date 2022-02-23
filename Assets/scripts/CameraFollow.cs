@@ -18,6 +18,7 @@ public class CameraFollow : MonoBehaviour
 
     void Update()
     {
+        // Read Mouse Event and translate to yaw and pitch
         if(mouseControl == true){
         Cursor.visible = false;
          yaw += speedH * Input.GetAxis("Mouse X");
