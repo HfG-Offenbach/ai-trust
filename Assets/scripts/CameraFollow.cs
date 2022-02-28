@@ -26,6 +26,15 @@ public class CameraFollow : MonoBehaviour
          transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
         }
 
+        // ============================================================== hot keys --> C --> Camera Mouse Controll (on/off)
+        if (Input.GetKeyUp(KeyCode.C)){ 
+            if(mouseControl == false){
+                mouseControl = true;
+            }else{
+                mouseControl = false;
+            }
+        }
+
     }
 
     void LateUpdate(){

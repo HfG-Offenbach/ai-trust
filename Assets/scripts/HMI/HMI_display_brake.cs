@@ -66,7 +66,7 @@ namespace WSMGameStudio.RailroadSystem
             // redefine offset of display
             // transform.localPosition = new Vector3(0, OffsetContinuousDisplay, 0);
 
-             Debug.Log("acceleration: "+acceleration);
+            //  Debug.Log("acceleration: "+acceleration);
             if (acceleration > 0 ){
                 r_color = 0;
                 a_color = 0;
