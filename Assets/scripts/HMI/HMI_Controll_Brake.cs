@@ -19,10 +19,9 @@ public class HMI_Controll_Brake : MonoBehaviour
     void Update()
     {
         if(Car.GetComponent<SplineBasedLocomotive>().EnginesOn){
-            PseudoLocomotive.GetComponent<SplineBasedLocomotive>().BrakingDecelerationRate = 30f;
+            PseudoLocomotive.GetComponent<SplineBasedLocomotive>().BrakingDecelerationRate = 40f;
         } else {
             PseudoLocomotive.GetComponent<SplineBasedLocomotive>().BrakingDecelerationRate = 6f;
-
         }
         
     }

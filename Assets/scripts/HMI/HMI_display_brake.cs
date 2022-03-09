@@ -81,7 +81,7 @@ namespace WSMGameStudio.RailroadSystem
                 myRenderer.material.color = myColor;
                 // Debug.Log("acceleration ================================ equal 0");
         }
-            if (acceleration < -70){
+            if (acceleration < -20){
                 r_color = 255;
                 a_color = 255;
                 myColor = new Color(r_color, g_color, b_color, a_color);
