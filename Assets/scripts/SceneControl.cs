@@ -181,32 +181,32 @@ public class SceneControl : MonoBehaviour
 
 
 
-        // ============================================================== hot keys --> 1 --> HMI_speed (on/off)
-        if (Input.GetKeyUp(KeyCode.Alpha1)){
-            if(HMI_speed.GetComponent<MeshRenderer>().enabled == false){
-                HMI_speed.GetComponent<MeshRenderer>().enabled = true;
-            }else{
-                HMI_speed.GetComponent<MeshRenderer>().enabled = false;
-            }
-        }
-        // ============================================================== hot keys --> 2 --> HMI_brake (on/off)
-        if (Input.GetKeyUp(KeyCode.Alpha2)){
-            if(HMI_brake.GetComponent<MeshRenderer>().enabled == false){
-                HMI_brake.GetComponent<MeshRenderer>().enabled = true;
-            }else{
-                HMI_brake.GetComponent<MeshRenderer>().enabled = false;
-            }
-        }
-        // ============================================================== hot keys --> S --> engine (on/off) start and stop
-        if (Input.GetKeyUp(KeyCode.S)){ 
-            if(PseudoLocomotive.GetComponent<SplineBasedLocomotive>().EnginesOn == false){
-                PseudoLocomotive.GetComponent<SplineBasedLocomotive>().BrakingDecelerationRate = 40f;
-                PseudoLocomotive.GetComponent<SplineBasedLocomotive>().EnginesOn = false;
-            } else {
-                PseudoLocomotive.GetComponent<SplineBasedLocomotive>().BrakingDecelerationRate = 6f;
-                PseudoLocomotive.GetComponent<SplineBasedLocomotive>().EnginesOn = true;
-            }
-        }
+        // // ============================================================== hot keys --> 1 --> HMI_speed (on/off)
+        // if (Input.GetKeyUp(KeyCode.Alpha1)){
+        //     if(HMI_speed.GetComponent<MeshRenderer>().enabled == false){
+        //         HMI_speed.GetComponent<MeshRenderer>().enabled = true;
+        //     }else{
+        //         HMI_speed.GetComponent<MeshRenderer>().enabled = false;
+        //     }
+        // }
+        // // ============================================================== hot keys --> 2 --> HMI_brake (on/off)
+        // if (Input.GetKeyUp(KeyCode.Alpha2)){
+        //     if(HMI_brake.GetComponent<MeshRenderer>().enabled == false){
+        //         HMI_brake.GetComponent<MeshRenderer>().enabled = true;
+        //     }else{
+        //         HMI_brake.GetComponent<MeshRenderer>().enabled = false;
+        //     }
+        // }
+        // // ============================================================== hot keys --> S --> engine (on/off) start and stop
+        // if (Input.GetKeyUp(KeyCode.S)){ 
+        //     if(PseudoLocomotive.GetComponent<SplineBasedLocomotive>().EnginesOn == false){
+        //         PseudoLocomotive.GetComponent<SplineBasedLocomotive>().BrakingDecelerationRate = 40f;
+        //         PseudoLocomotive.GetComponent<SplineBasedLocomotive>().EnginesOn = false;
+        //     } else {
+        //         PseudoLocomotive.GetComponent<SplineBasedLocomotive>().BrakingDecelerationRate = 6f;
+        //         PseudoLocomotive.GetComponent<SplineBasedLocomotive>().EnginesOn = true;
+        //     }
+        // }
 
 
 

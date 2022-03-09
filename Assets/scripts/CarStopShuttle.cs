@@ -16,6 +16,8 @@ namespace WSMGameStudio.RailroadSystem
 
         private bool shuttleFirstBraking = true;
 
+        public float timingOfNotification = 1.0f;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -34,7 +36,7 @@ namespace WSMGameStudio.RailroadSystem
             var myColor = new Color(255, 0, 0, 0.1f);
             myRenderer.material.color = myColor;
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(timingOfNotification);
             if(shuttleFirstBraking){
                 BrakeNotificaitonBar.GetComponent<MeshRenderer>().enabled = true;
             }
@@ -72,11 +74,21 @@ namespace WSMGameStudio.RailroadSystem
         }
 
         // Update is called once per frame
-        // void Update()
-        // {
-        //     if(PseudoLocomotive.GetComponent<SplineBasedLocomotive>().Speed_KPH < 29){
-        //         BrakeNotificaitonBar.GetComponent<MeshRenderer>().enabled = false;
-        //     }
-        // }
+        void Update()
+        {
+            // ============================================================== hot keys --> 1 --> 
+            if (Input.GetKeyUp(KeyCode.Alpha1)){
+                timingOfNotification = 1.0f;
+            }
+            // ============================================================== hot keys --> 5 --> 
+            if (Input.GetKeyUp(KeyCode.Alpha5)){
+                timingOfNotification = 0.5f;
+            }
+            // ============================================================== hot keys --> 0 --> 
+            if (Input.GetKeyUp(KeyCode.Alpha0)){
+                timingOfNotification = 0.0f;
+            }
+
+        }
     }
 }
