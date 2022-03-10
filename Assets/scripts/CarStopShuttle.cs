@@ -32,6 +32,9 @@ namespace WSMGameStudio.RailroadSystem
         }
 
         IEnumerator activateNotificationSignal(){      
+            // reduce speed
+            PseudoLocomotive.GetComponent<SplineBasedLocomotive>().MaxSpeed = 20f;
+
             // change color of car
             var myColor = new Color(255, 0, 0, 0.1f);
             myRenderer.material.color = myColor;
@@ -60,8 +63,11 @@ namespace WSMGameStudio.RailroadSystem
             PseudoLocomotive.GetComponent<SplineBasedLocomotive>().BrakingDecelerationRate = 40f;
         }
         IEnumerator activateEngine(){
-            // yield on a new YieldInstruction that waits for 5 seconds.
+
+            // yield on a new YieldInstruction that waits for 3 seconds.
             yield return new WaitForSeconds(3);
+            // reset max speed to 30 kmh
+            PseudoLocomotive.GetComponent<SplineBasedLocomotive>().MaxSpeed = 30f;
             BrakeLights.GetComponent<MeshRenderer>().enabled = false;
 
             Debug.Log("start engine: " + Time.time);
