@@ -17,12 +17,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/WSM Game Studio/Train Controller_v3/Demo/Demo_SplineBasedTrain.unity
     guid: 2e328fe4e6a53fb4283d5adfbc9c76f6
-  m_configObjects:
-    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 55d3a70e09156c04e8d9637cb091694b,
-      type: 2}
-    Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: ea7708fba49bca94a8106b4ce1124e3c,
-      type: 2}
-    Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: 59d6160aac144154abccb3e345b8274f,
-      type: 2}
-    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: c61275128774a734eaad0509f9ea2c63,
-      type: 2}
+  m_configObjects: {}
