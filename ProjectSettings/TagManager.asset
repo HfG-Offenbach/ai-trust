@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Rails
   - TurnoutRails
+  - StartTransitionToNextRoute
   layers:
   - Default
   - TransparentFX
