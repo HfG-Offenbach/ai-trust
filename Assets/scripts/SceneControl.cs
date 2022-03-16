@@ -25,7 +25,7 @@ public class SceneControl : MonoBehaviour
     void Start()
     {
         // define PseudoLocomotive default characteristics 
-        PseudoLocomotive.GetComponent<SplineBasedLocomotive>().EnginesOn = false;
+        // PseudoLocomotive.GetComponent<SplineBasedLocomotive>().EnginesOn = false;
         // GameObject OnBoarding = GameObject.Find("OnBoarding");
         // GreenDisplay.GetComponent<SplineBasedLocomotive>().MaxSpeed =  40f;
         // PseudoLocomotive.GetComponent<SplineBasedLocomotive>().MaxSpeed =  40f;
@@ -52,7 +52,7 @@ public class SceneControl : MonoBehaviour
         if (OnBoarding){ 
             OnBoarding.SetActive(false);    // hide onBoarding displays
         }
-        PseudoLocomotive.GetComponent<SplineBasedLocomotive>().EnginesOn = true;     // turn engines on
+        // PseudoLocomotive.GetComponent<SplineBasedLocomotive>().EnginesOn = true;     // turn engines on
     }
 
     // void updateAcceleration(){

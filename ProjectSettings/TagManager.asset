@@ -7,6 +7,8 @@ TagManager:
   - Rails
   - TurnoutRails
   - StartTransitionToNextRoute
+  - Shuttle
+  - PseudoLocomotive
   layers:
   - Default
   - TransparentFX

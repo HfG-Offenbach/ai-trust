@@ -7,7 +7,7 @@ namespace WSMGameStudio.RailroadSystem
     public class CarStopShuttle : MonoBehaviour
     {
 
-        public Renderer myRenderer;
+        // public Renderer myRenderer;
 
         public GameObject PseudoLocomotive;
         public GameObject BrakeNotificaitonBar;
@@ -21,14 +21,16 @@ namespace WSMGameStudio.RailroadSystem
         // Start is called before the first frame update
         void Start()
         {
-            myRenderer = gameObject.GetComponent<Renderer>();  
+            // myRenderer = gameObject.GetComponent<Renderer>();  
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            StartCoroutine(activateNotificationSignal());
-            StartCoroutine(activeBrake());
-            StartCoroutine(activateEngine());
+            if (other.CompareTag("Shuttle")){
+                StartCoroutine(activateNotificationSignal());
+                StartCoroutine(activeBrake());
+                StartCoroutine(activateEngine());
+            }
         }
 
         IEnumerator activateNotificationSignal(){      
@@ -37,7 +39,7 @@ namespace WSMGameStudio.RailroadSystem
 
             // change color of car
             var myColor = new Color(255, 0, 0, 0.1f);
-            myRenderer.material.color = myColor;
+            gameObject.GetComponent<Renderer>().material.color = myColor;
 
             yield return new WaitForSeconds(timingOfNotification);
             if(shuttleFirstBraking){
@@ -49,10 +51,6 @@ namespace WSMGameStudio.RailroadSystem
             Debug.Log("notifictation signal: " + Time.time);
             // yield return new WaitForSeconds(0.5f);
             // BrakeNotificaitonBar.GetComponent<MeshRenderer>().enabled = false;
-
-
-            
-
         }
         IEnumerator activeBrake(){
             yield return new WaitForSeconds(1f);
@@ -63,7 +61,6 @@ namespace WSMGameStudio.RailroadSystem
             PseudoLocomotive.GetComponent<SplineBasedLocomotive>().BrakingDecelerationRate = 40f;
         }
         IEnumerator activateEngine(){
-
             // yield on a new YieldInstruction that waits for 3 seconds.
             yield return new WaitForSeconds(3);
             // reset max speed to 30 kmh
