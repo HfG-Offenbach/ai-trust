@@ -9,8 +9,12 @@ namespace WSMGameStudio.RailroadSystem
     {
         public GameObject BlackBoxForRouteSwitches;
         public GameObject PseudoLocomotive;
-        public GameObject TrainSpawner;
-        public GameObject RouteManager;
+        public GameObject Glass;
+        public Material GlassMaterial;
+        // public GameObject TrainSpawner;
+        // public GameObject RouteManager;
+
+        public int RouteCounter = 0;
 
         // public Color myColor;
 
@@ -29,7 +33,11 @@ namespace WSMGameStudio.RailroadSystem
         }
         
         void OnTriggerEnter(Collider other){
+
             if (other.CompareTag("StartTransitionToNextRoute")){
+                RouteCounter += 1;
+                Debug.Log("add to route number: " + RouteCounter);
+
                     // Debug.Log("routes 1: " + RouteManager.GetComponent<RouteManager>().Routes[1].routeIndex);
                     // Debug.Log("routes 1: " + TrainSpawner.GetComponent<TrainSpawner>().targetRails[2]);
 
@@ -59,14 +67,16 @@ namespace WSMGameStudio.RailroadSystem
         IEnumerator sceneFadeOut(float duration){
             float counter = 0;
             //Get current color
-            Color spriteColor = BlackBoxForRouteSwitches.GetComponent<Renderer>().material.color;
+            Color spriteColor = GlassMaterial.color;
+            // Color spriteColor = BlackBoxForRouteSwitches.GetComponent<Renderer>().material.color;
             while (counter < duration){
                 counter += Time.deltaTime;
                 //Fade from 0 to 1
-                float alpha = Mathf.Lerp(0, 1, counter / duration);
+                float alpha = Mathf.Lerp(0.3f, 1, counter / duration);
                 Debug.Log(alpha);
                 //Change alpha only
-                BlackBoxForRouteSwitches.GetComponent<Renderer>().material.color = new Color(spriteColor.r, spriteColor.g, spriteColor.b, alpha);
+                GlassMaterial.color = new Color(spriteColor.r, spriteColor.g, spriteColor.b, alpha);
+                // BlackBoxForRouteSwitches.GetComponent<Renderer>().material.color = new Color(spriteColor.r, spriteColor.g, spriteColor.b, alpha);
                 //Wait for a frame
                 yield return null;
             }
@@ -76,8 +86,11 @@ namespace WSMGameStudio.RailroadSystem
 
         }
         IEnumerator sceneFadeIn(float duration){
-            Color spriteColor = BlackBoxForRouteSwitches.GetComponent<Renderer>().material.color;
-            BlackBoxForRouteSwitches.GetComponent<Renderer>().material.color = new Color(spriteColor.r, spriteColor.g, spriteColor.b, 1);
+
+            // Color spriteColor = BlackBoxForRouteSwitches.GetComponent<Renderer>().material.color;
+            Color spriteColor = GlassMaterial.color;
+            GlassMaterial.color = new Color(spriteColor.r, spriteColor.g, spriteColor.b, 1);
+            // BlackBoxForRouteSwitches.GetComponent<Renderer>().material.color = new Color(spriteColor.r, spriteColor.g, spriteColor.b, 1);
 
             yield return new WaitForSeconds(4);
 
@@ -86,10 +99,11 @@ namespace WSMGameStudio.RailroadSystem
             while (counter < duration){
                 counter += Time.deltaTime;
                 //Fade from 0 to 1
-                float alpha = Mathf.Lerp(1, 0, counter / duration);
+                float alpha = Mathf.Lerp(1, 0.3f, counter / duration);
                 Debug.Log(alpha);
                 //Change alpha only
-                BlackBoxForRouteSwitches.GetComponent<Renderer>().material.color = new Color(spriteColor.r, spriteColor.g, spriteColor.b, alpha);
+                GlassMaterial.color = new Color(spriteColor.r, spriteColor.g, spriteColor.b, alpha);
+                // BlackBoxForRouteSwitches.GetComponent<Renderer>().material.color = new Color(spriteColor.r, spriteColor.g, spriteColor.b, alpha);
                 //Wait for a frame
                 yield return null;
             }
