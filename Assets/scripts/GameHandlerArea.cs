@@ -27,8 +27,10 @@ namespace WSMGameStudio.RailroadSystem
         // car relations
         public GameObject CarColliderObeject;
         public GameObject ShuttleZoneCollider;
+        // car routes
+        public GameObject[] CarRoutes;
 
-
+        // variables
         [SerializeField] private int RouteCounter = 0;
         private int RouteCounterOpponent = 1;
         public bool shuttleReadyToStart = false;
@@ -103,7 +105,7 @@ namespace WSMGameStudio.RailroadSystem
             StartCoroutine(OnBoardingQuery());
             timeFreeze = Time.time;
             Debug.Log("starting Time: " + timeFreeze);
-
+            deactivateAllCars();
             CSV_splitLines();            
         }
 // =================================================================================================
@@ -111,6 +113,11 @@ namespace WSMGameStudio.RailroadSystem
 // =================================================================================================
         void CSV_splitLines(){
             CSV_Lines = csvFile.text.Split('\n'); 
+        }
+        void deactivateAllCars(){
+            for (int i = 0; i < CarRoutes.Length; i++){
+                CarRoutes[i].SetActive(false);
+            }
         }
 // =================================================================================================
 // ============================= Update is called once per frame ===================================
@@ -201,7 +208,21 @@ namespace WSMGameStudio.RailroadSystem
         void defineTestbedEvents(){
             // Is a Collision happening?
             if(Testbed_Collision){
-                Debug.Log("TestbedEvents: Collision is true");
+                Debug.Log("TestbedEvents: Collision is true" + (RouteCounter-1));
+                if((RouteCounter-1) == 1){   CarRoutes[1].SetActive(true);  }
+                if((RouteCounter-1) == 2){   CarRoutes[1].SetActive(true);  }
+                if((RouteCounter-1) == 3){   CarRoutes[2].SetActive(true);  }
+                if((RouteCounter-1) == 4){   CarRoutes[2].SetActive(true);  }
+                if((RouteCounter-1) == 5){   CarRoutes[3].SetActive(true);  }
+                if((RouteCounter-1) == 6){   CarRoutes[3].SetActive(true);  }
+                if((RouteCounter-1) == 7){   CarRoutes[4].SetActive(true);  }
+                if((RouteCounter-1) == 8){   CarRoutes[5].SetActive(true);  }
+                if((RouteCounter-1) == 9){   CarRoutes[6].SetActive(true);  }
+                if((RouteCounter-1) == 10){   CarRoutes[7].SetActive(true);  }
+                if((RouteCounter-1) == 11){   CarRoutes[8].SetActive(true);  }
+                // if((RouteCounter-1) == 12){   CarRoutes[9].SetActive(true);  }
+                if((RouteCounter-1) == 12){   CarRoutes[8].SetActive(true);  }
+
             } else {
                 Debug.Log("TestbedEvents: Collision is false");
             }
@@ -434,6 +455,7 @@ namespace WSMGameStudio.RailroadSystem
 // ==================================== Shuttle Exiting GameHandlerArea ===========================
 // =================================================================================================
         void OnTriggerExit(Collider other){
+            deactivateAllCars();
             // check if Object with tag "StartTransitionToNextRoute" exits Collider
             if (other.CompareTag("StartTransitionToNextRoute")){
                 // turn off engine
