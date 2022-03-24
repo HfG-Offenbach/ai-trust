@@ -5,16 +5,16 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Marketing/Marketing_1.unity
-    guid: 058ae0a19679f9240afecf1fe94ef6e9
-  - enabled: 0
-    path: Assets/Marketing/Marketing_CableCar_Trailer.unity
-    guid: 5c8af1c7981feee48a45ba66aa4de96c
-  - enabled: 0
-    path: Assets/Marketing/Marketing_Subway_Trailer.unity
-    guid: 58175dac13d215b478eafd3fc150c6bd
   - enabled: 1
     path: Assets/WSM Game Studio/Train Controller_v3/Demo/Demo_SplineBasedTrain.unity
     guid: 2e328fe4e6a53fb4283d5adfbc9c76f6
-  m_configObjects: {}
+  - enabled: 1
+    path: Assets/Scenes/ai-trust-testbed-001.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  m_configObjects:
+    Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: 4e994cb2e9cbc6248a9f1612a52a6e54,
+      type: 2}
+    Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: 5a2b8d91cf2ff49468a19792470d0f91,
+      type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 3e927597346652a438e9ea6d6f43d66e,
+      type: 2}
