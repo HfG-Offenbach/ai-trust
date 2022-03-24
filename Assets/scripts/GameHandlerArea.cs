@@ -26,6 +26,7 @@ namespace WSMGameStudio.RailroadSystem
 
         // car relations
         public GameObject CarColliderObeject;
+        public GameObject ShuttleZoneCollider;
 
 
         [SerializeField] private int RouteCounter = 0;
@@ -361,11 +362,11 @@ namespace WSMGameStudio.RailroadSystem
 // =================================================================================================
         void ShuttleBrake(){
             // check if Car Collider is triggered?
-            if(CarColliderObeject.GetComponent<CarStopShuttle>().TriggerEnter){
+            if(ShuttleZoneCollider.GetComponent<ShuttleZoneDetectCar>().TriggerEnter){
                 StartCoroutine(activateNotificationSignal());
                 StartCoroutine(activeBrake());
                 StartCoroutine(activateEngine());
-                CarColliderObeject.GetComponent<CarStopShuttle>().TriggerEnter = false;
+                ShuttleZoneCollider.GetComponent<ShuttleZoneDetectCar>().TriggerEnter = false;
             }
         }
         IEnumerator activateNotificationSignal(){      
@@ -374,7 +375,8 @@ namespace WSMGameStudio.RailroadSystem
 
             // change color of car
             var myColor = new Color(255, 0, 0, 0.1f);
-            CarColliderObeject.GetComponent<Renderer>().material.color = myColor;
+            // car collider color
+            // CarColliderObeject.GetComponent<Renderer>().material.color = myColor;
 
             yield return new WaitForSeconds(timingOfNotification);
             if(preNotification && shuttleFirstBraking){

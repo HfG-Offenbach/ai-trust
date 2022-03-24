@@ -9,6 +9,7 @@ TagManager:
   - StartTransitionToNextRoute
   - Shuttle
   - PseudoLocomotive
+  - Car
   layers:
   - Default
   - TransparentFX
