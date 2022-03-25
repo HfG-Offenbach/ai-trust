@@ -6,10 +6,6 @@ TagManager:
   tags:
   - Rails
   - TurnoutRails
-  - StartTransitionToNextRoute
-  - Shuttle
-  - PseudoLocomotive
-  - Car
   layers:
   - Default
   - TransparentFX
@@ -21,7 +17,6 @@ TagManager:
   - 
   - RailGuide
   - TrainWheels
-  - Operator UI
   - 
   - 
   - 
@@ -31,8 +26,9 @@ TagManager:
   - 
   - 
   - 
-  - supervisorView
-  - testSubjectView
+  - 
+  - 
+  - 
   - 
   - 
   - 

@@ -10,7 +10,7 @@ namespace WSMGameStudio.RailroadSystem
         // shuttle relations
         public GameObject PseudoLocomotive;
         public GameObject Shuttle;
-        public GameObject BlackBoxForRouteSwitches;
+        public GameObject ShuttleTransitionCollidor;
         public GameObject OnBoarding;
         public GameObject Glass;
         public Material GlassMaterial;
@@ -86,6 +86,7 @@ namespace WSMGameStudio.RailroadSystem
         private Color spriteColor;
         private float GlassOpacity = 1;
 
+        private bool ReadyToEnterAgain = true;
 
 // =================================================================================================
 // ============================= Start is called before the first frame update =====================
@@ -127,9 +128,9 @@ namespace WSMGameStudio.RailroadSystem
             checkCurrentSpeed();
             FPVcameraAngleCorrection();
             ShuttleAccelerationBaviour();
-            ShuttleCurveBaviour();
+            ShuttleCurveBehaviour();
             ShuttleZones();
-            ShuttleBrake();
+            ShuttleBrakeBehaviour();
             CheckBrakeFinished();
             if(askingQuestions){
                 questionnaireBreak();
@@ -179,7 +180,7 @@ namespace WSMGameStudio.RailroadSystem
             Debug.Log("CSV line number: " + TestSubjectNR + "CSV line: " + CSV_Lines[TestSubjectNR]);
             // split line number X into its objects
             CSV_LineObjects = CSV_Lines[TestSubjectNR].Trim().Split(","[0]);
-            Debug.Log("CSV RouteCounter / Line Object Nr.: " + RouteCounter + "Line Object: " + CSV_LineObjects[RouteCounter-1]);
+            Debug.Log("Testbed: CSV RouteCounter / Line Object Nr.: " + RouteCounter + "Line Object: " + CSV_LineObjects[RouteCounter-1]);
 
             // select Object X current CSV Line
             CSV_SingleLineObject = CSV_LineObjects[RouteCounter-1].Trim().Split("-"[0]);
@@ -188,7 +189,7 @@ namespace WSMGameStudio.RailroadSystem
             CSV_Collision = CSV_SingleLineObject[1];
             CSV_FeedbackType = CSV_SingleLineObject[2];
             CSV_LastRound = CSV_SingleLineObject[3];
-            Debug.Log("\n CSV_RouteNumber: " + CSV_RouteNumber + "\n CSV_Collision: " + CSV_Collision + "\n CSV_FeedbackType: " + CSV_FeedbackType + "\n CSV_LastRound: " + CSV_LastRound);
+            Debug.Log("TestbedEvent details: \n CSV_RouteNumber: " + CSV_RouteNumber + "\n CSV_Collision: " + CSV_Collision + "\n CSV_FeedbackType: " + CSV_FeedbackType + "\n CSV_LastRound: " + CSV_LastRound);
 
             if(CSV_Collision == "1"){
                 Testbed_Collision = true;
@@ -208,52 +209,52 @@ namespace WSMGameStudio.RailroadSystem
         void defineTestbedEvents(){
             // Is a Collision happening?
             if(Testbed_Collision){
-                Debug.Log("TestbedEvents: Collision is true" + (RouteCounter-1));
-                if((RouteCounter-1) == 1){   CarRoutes[1].SetActive(true);  }
-                if((RouteCounter-1) == 2){   CarRoutes[1].SetActive(true);  }
-                if((RouteCounter-1) == 3){   CarRoutes[2].SetActive(true);  }
-                if((RouteCounter-1) == 4){   CarRoutes[2].SetActive(true);  }
-                if((RouteCounter-1) == 5){   CarRoutes[3].SetActive(true);  }
-                if((RouteCounter-1) == 6){   CarRoutes[3].SetActive(true);  }
-                if((RouteCounter-1) == 7){   CarRoutes[4].SetActive(true);  }
-                if((RouteCounter-1) == 8){   CarRoutes[5].SetActive(true);  }
-                if((RouteCounter-1) == 9){   CarRoutes[6].SetActive(true);  }
-                if((RouteCounter-1) == 10){   CarRoutes[7].SetActive(true);  }
-                if((RouteCounter-1) == 11){   CarRoutes[8].SetActive(true);  }
-                // if((RouteCounter-1) == 12){   CarRoutes[9].SetActive(true);  }
-                if((RouteCounter-1) == 12){   CarRoutes[8].SetActive(true);  }
+                Debug.Log("Route Nr.: " + (RouteCounter) + "TestbedEvents: Collision is true");
+                if( (RouteCounter) == 1    ){   CarRoutes[0].SetActive(true);  }
+                if( (RouteCounter) == 2    ){   CarRoutes[0].SetActive(true);  }
+                if( (RouteCounter) == 3    ){   CarRoutes[1].SetActive(true);  }
+                if( (RouteCounter) == 4    ){   CarRoutes[1].SetActive(true);  }
+                if( (RouteCounter) == 5    ){   CarRoutes[2].SetActive(true);  }
+                if( (RouteCounter) == 6    ){   CarRoutes[2].SetActive(true);  }
+                if( (RouteCounter) == 7    ){   CarRoutes[3].SetActive(true);  }
+                if( (RouteCounter) == 8    ){   CarRoutes[4].SetActive(true);  }
+                if( (RouteCounter) == 9    ){   CarRoutes[5].SetActive(true);  }
+                if( (RouteCounter) == 10   ){   CarRoutes[6].SetActive(true);  }
+                if( (RouteCounter) == 11   ){   CarRoutes[7].SetActive(true);  }
+                // if( (RouteCounter) == 12   ){   CarRoutes[8].SetActive(true);  }
+                if( (RouteCounter) == 12   ){   CarRoutes[7].SetActive(true);  }
 
             } else {
-                Debug.Log("TestbedEvents: Collision is false");
+                Debug.Log("Route Nr.: " + (RouteCounter) + "TestbedEvents: Collision is false");
             }
 
             // Is it the last Round? 
             if(Testbed_LastRound){
-                Debug.Log("TestbedEvents: Last Round is true");
+                Debug.Log("Route Nr.: " + (RouteCounter) + "TestbedEvents: Last Round is true");
             } else {
-                Debug.Log("TestbedEvents: Last Round is false");
+                Debug.Log("Route Nr.: " + (RouteCounter) + "TestbedEvents: Last Round is false");
             }
 
             // What is the Feedback Type?
             if(CSV_FeedbackType == "0"){
-                Debug.Log("TestbedEvents: Feedback Type: pre-notification --> false");
+                Debug.Log("Route Nr.: " + (RouteCounter) + "TestbedEvents: Feedback Type: pre-notification --> false");
                 brakeSignal = true;
                 preNotification = false;
             }
             if(CSV_FeedbackType == "1"){
-                Debug.Log("TestbedEvents: Feedback Type: pre-notification --> 0.5 sec before brake");
+                Debug.Log("Route Nr.: " + (RouteCounter) + "TestbedEvents: Feedback Type: pre-notification --> 0.5 sec before brake");
                 brakeSignal = true;
                 preNotification = true;
                 timingOfNotification = 0.5f;
             }
             if(CSV_FeedbackType == "2"){
-                Debug.Log("TestbedEvents: Feedback Type: pre-notification --> 1 sec before brake");
+                Debug.Log("Route Nr.: " + (RouteCounter) + "TestbedEvents: Feedback Type: pre-notification --> 1 sec before brake");
                 brakeSignal = true;
                 preNotification = true;
                 timingOfNotification = 0.0f;
             }
             if(CSV_FeedbackType == "3"){
-                Debug.Log("TestbedEvents: Feedback Type: pre-notification --> nothing else");
+                Debug.Log("Route Nr.: " + (RouteCounter) + "TestbedEvents: Feedback Type: pre-notification --> nothing else");
                 brakeSignal = false;
                 preNotification = true;
                 timingOfNotification = 0.0f;
@@ -291,11 +292,6 @@ namespace WSMGameStudio.RailroadSystem
 // ==================================== Shuttle Zone Behaviour =====================================
 // =================================================================================================
         void ShuttleZones(){
-            // ILocomotive _shuttle = PseudoLocomotive.GetComponent<ILocomotive>();
-            // _currentSpeed = _shuttle.Speed_MPS;
-
-            // // calculate current speed in percentage
-            // var SpeedPercentage = (_currentSpeed - SpeedMin) / (SpeedMax - SpeedMin);
             // scale big zone
             var BigZone_Size = BigZone_MinSize + ((BigZone_MaxSize-BigZone_MinSize) * SpeedPercentage);
             BigZone.transform.localScale = new Vector3(BigZone_Size, 8, BigZone_Size);
@@ -346,7 +342,7 @@ namespace WSMGameStudio.RailroadSystem
 // =================================================================================================
 // ==================================== Shuttle Curve Behaviour ====================================
 // =================================================================================================
-        void ShuttleCurveBaviour(){
+        void ShuttleCurveBehaviour(){
             float angle = PseudoLocomotive.transform.rotation.eulerAngles.y;
                 // ============================================================== define curve behavior
                 if (((angle/90) % 1) != 0){      // if rotation is not 90 or 180 or 270 and so on > reduce speed
@@ -379,9 +375,9 @@ namespace WSMGameStudio.RailroadSystem
                 }
         }
 // =================================================================================================
-// ==================================== Shuttle Brake Performance ==================================
+// ==================================== Shuttle Brake Behaviour ==================================
 // =================================================================================================
-        void ShuttleBrake(){
+        void ShuttleBrakeBehaviour(){
             // check if Car Collider is triggered?
             if(ShuttleZoneCollider.GetComponent<ShuttleZoneDetectCar>().TriggerEnter){
                 StartCoroutine(activateNotificationSignal());
@@ -442,13 +438,14 @@ namespace WSMGameStudio.RailroadSystem
 // ==================================== Shuttle Entering GameHandlerArea ===========================
 // =================================================================================================
         void OnTriggerEnter(Collider other){
-            // check if Object with tag "StartTransitionToNextRoute" enters Collider
-            if (other.CompareTag("StartTransitionToNextRoute")){
+            // check if Object with tag "TransitionCollidorTriggered" enters Collider
+            // object with 'TransitionCollidorTriggered' Tag --> Shuttle --> TransitionCollidor
+            if (ReadyToEnterAgain && other.CompareTag("TransitionCollidorTriggered")){
                 RouteCounter += 1;
                 Debug.Log("add to route number: " + RouteCounter);
                 // possible break
                 askingQuestions = true;
-                // StartCoroutine(sceneFadeIn(3));
+                ReadyToEnterAgain = false;
             }
         }
 // =================================================================================================
@@ -457,7 +454,10 @@ namespace WSMGameStudio.RailroadSystem
         void OnTriggerExit(Collider other){
             deactivateAllCars();
             // check if Object with tag "StartTransitionToNextRoute" exits Collider
-            if (other.CompareTag("StartTransitionToNextRoute")){
+            // if (other.CompareTag("Shuttle")){
+            if (other.CompareTag("TransitionCollidorTriggered")){
+                //prepare Shuttle for next route
+                ReadyToEnterAgain = true;
                 // turn off engine
                 PseudoLocomotive.GetComponent<SplineBasedLocomotive>().EnginesOn = false;
                 // fade in BlackBox around Shuttle to create transition to next route
@@ -467,17 +467,12 @@ namespace WSMGameStudio.RailroadSystem
         }
         IEnumerator sceneFadeOut(float duration){
             float counter = 0;
-            //Get current color
-            // Color spriteColor = GlassMaterial.color;
-            // Color spriteColor = BlackBoxForRouteSwitches.GetComponent<Renderer>().material.color;
             while (counter < duration){
                 counter += Time.deltaTime;
                 //Fade from 0 to 1
                 float alpha = Mathf.Lerp(0.3f, 1, counter / duration);
-                Debug.Log(alpha);
                 //Change alpha only
                 GlassMaterial.color = new Color(spriteColor.r, spriteColor.g, spriteColor.b, alpha);
-                // BlackBoxForRouteSwitches.GetComponent<Renderer>().material.color = new Color(spriteColor.r, spriteColor.g, spriteColor.b, alpha);
                 //Wait for a frame
                 yield return null;
             }
