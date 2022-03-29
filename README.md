@@ -1,4 +1,4 @@
-![AI TRUST Logo](/../create-routes/Assets/images/logos/aiTrust_logoArtboard\2\copy\10nobackground.png)
+![AI TRUST Logo](/../create-routes/Assets/images/logos/aiTrust_logo_white_01.png)
 
 # ai trust testbed
 
