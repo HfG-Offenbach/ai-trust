@@ -12,8 +12,12 @@ namespace WSMGameStudio.RailroadSystem
         public GameObject Shuttle;
         public GameObject ShuttleTransitionCollidor;
         public GameObject OnBoarding;
-        public GameObject Glass;
+        public GameObject ShuttleDoorsFront;
+        public GameObject ShuttleDoorsBack;
+
+        // public GameObject Glass;
         public Material GlassMaterial;
+        public Material GlassRoofMaterial;
 
         
         // shuttle zones
@@ -83,8 +87,14 @@ namespace WSMGameStudio.RailroadSystem
         public int TestSubjectNR = 0;
         private bool askingQuestions = false;
 
-        private Color spriteColor;
-        private float GlassOpacity = 1;
+        private Color glassColor;
+        private float GlassOpacity = 0.3f;
+        private Color roofColor;
+        private float RoofGlassOpacity = 0.8f;
+
+        private Transform doorsFrontPosition;
+        private Transform doorsBackPosition;
+
 
         private bool ReadyToEnterAgain = true;
 
@@ -95,15 +105,16 @@ namespace WSMGameStudio.RailroadSystem
             // Correct internal test subject id number
             TestSubjectNR -= TestSubjectNR;
 
-            spriteColor = GlassMaterial.color;
-            // GlassOpacity = 1;
-            GlassMaterial.color = new Color(spriteColor.r, spriteColor.g, spriteColor.b, GlassOpacity);
+            glassColor = GlassMaterial.color;
+            GlassMaterial.color = new Color(glassColor.r, glassColor.g, glassColor.b, GlassOpacity);
+            roofColor = GlassRoofMaterial.color;
+            GlassRoofMaterial.color = new Color(roofColor.r, roofColor.g, roofColor.b, RoofGlassOpacity);
 
             BrakeNotificaitonDisplay.GetComponent<MeshRenderer>().enabled = false;
             HMIBrakeDisplay.GetComponent<MeshRenderer>().enabled = false;
             PseudoLocomotive.GetComponent<SplineBasedLocomotive>().AccelerationRate = 0f;
             PseudoLocomotive.GetComponent<SplineBasedLocomotive>().BrakingDecelerationRate = 6f;
-            StartCoroutine(OnBoardingQuery());
+            StartCoroutine(OnBoardingQuery(2));
             timeFreeze = Time.time;
             Debug.Log("starting Time: " + timeFreeze);
             deactivateAllCars();
@@ -125,6 +136,7 @@ namespace WSMGameStudio.RailroadSystem
 // =================================================================================================
         async void Update(){
             hotKeys();
+            doorHandler();
             checkCurrentSpeed();
             FPVcameraAngleCorrection();
             ShuttleAccelerationBaviour();
@@ -138,17 +150,74 @@ namespace WSMGameStudio.RailroadSystem
         }
 
 
+// =================================================================================================
+// ==================================== Open and Close Doors =======================================
+// =================================================================================================
+        void doorHandler(){
+            if(RouteCounter == 0){
+                StartCoroutine(openDoors(2));
+            }
+            if(Testbed_LastRound && ReadyToEnterAgain){
+            // if(RouteCounter == 2 && ReadyToEnterAgain){
+                Debug.Log("Shuttle arrived at the end");
+                StartCoroutine(openDoors(2));
+            }
+        }
+        IEnumerator openDoors(float duration){
+            float counter = 0;
+            doorsFrontPosition = ShuttleDoorsFront.transform;
+            float doorsFrontIdealState= doorsFrontPosition.localPosition.x;
+            doorsBackPosition = ShuttleDoorsBack.transform;
+            float doorsBackIdealState= doorsBackPosition.localPosition.x;
+            while (counter < duration){
+                counter += Time.deltaTime;
+                // calculate Offset of Doors
+                float DoorsOffset = Mathf.Lerp(0, 0.7f, counter / duration);
+                // manipulate doors position
+                ShuttleDoorsFront.transform.localPosition = new Vector3((doorsFrontIdealState + DoorsOffset), doorsFrontPosition.localPosition.y, doorsFrontPosition.localPosition.z);
+                ShuttleDoorsBack.transform.localPosition = new Vector3((doorsBackIdealState - DoorsOffset), doorsBackPosition.localPosition.y, doorsBackPosition.localPosition.z);
+                //Wait for a frame
+                yield return null;
+            }
+        }
+        IEnumerator closeDoors(float duration){
+            float counter = 0;
+            doorsFrontPosition = ShuttleDoorsFront.transform;
+            float doorsFrontIdealState= doorsFrontPosition.localPosition.x;
+            doorsBackPosition = ShuttleDoorsBack.transform;
+            float doorsBackIdealState= doorsBackPosition.localPosition.x;
+            while (counter < duration){
+                counter += Time.deltaTime;
+                // calculate Offset of Doors
+                float DoorsOffset = Mathf.Lerp(0, 0.7f, counter / duration);
+                // manipulate doors position
+                ShuttleDoorsFront.transform.localPosition = new Vector3((doorsFrontIdealState - DoorsOffset), doorsFrontPosition.localPosition.y, doorsFrontPosition.localPosition.z);
+                ShuttleDoorsBack.transform.localPosition = new Vector3((doorsBackIdealState + DoorsOffset), doorsBackPosition.localPosition.y, doorsBackPosition.localPosition.z);
+                //Wait for a frame
+                yield return null;
+            }
 
+            StartCoroutine(sceneFadeOut(3));
+            yield return new WaitForSeconds(5);
+            StartCoroutine(sceneFadeIn(1));
+            // yield return new WaitForSeconds(1);
+            // turnOnEngine();
 
+        }
 // =================================================================================================
 // ============================= Break to ask questions ============================================
 // =================================================================================================
         void questionnaireBreak(){
             if (Input.GetKeyUp(KeyCode.Space)){
-                Debug.Log("Questionnaire Break is over");
-                askingQuestions = false;     
-                // sceneFadeIn();
-                StartCoroutine(sceneFadeIn(1));
+
+                if(RouteCounter == 1){
+                    askingQuestions = false;     
+                    StartCoroutine(closeDoors(2));
+                } else {
+                    // Debug.Log("Questionnaire Break is over");
+                    askingQuestions = false;     
+                    StartCoroutine(sceneFadeIn(1));
+                }
             }
         }
         IEnumerator sceneFadeIn(float duration){
@@ -160,15 +229,19 @@ namespace WSMGameStudio.RailroadSystem
             //Get current color
             while (counter < duration){
                 counter += Time.deltaTime;
-                //Fade from 0 to 1
+                //Fade glass from 1 to 0.3 
                 float alpha = Mathf.Lerp(1, 0.3f, counter / duration);
-                // Debug.Log(alpha);
-                //Change alpha only
-                GlassMaterial.color = new Color(spriteColor.r, spriteColor.g, spriteColor.b, alpha);
-                // BlackBoxForRouteSwitches.GetComponent<Renderer>().material.color = new Color(spriteColor.r, spriteColor.g, spriteColor.b, alpha);
+                GlassMaterial.color = new Color(glassColor.r, glassColor.g, glassColor.b, alpha);
+                //Fade roof glass from 0.3 to 1
+                float roofAlpha = Mathf.Lerp(1, 0.8f, counter / duration);
+                GlassRoofMaterial.color = new Color(roofColor.r, roofColor.g, roofColor.b, roofAlpha);
                 //Wait for a frame
                 yield return null;
             }
+            turnOnEngine();
+        }
+
+        void turnOnEngine(){
             PseudoLocomotive.GetComponent<SplineBasedLocomotive>().EnginesOn = true;
             shuttleReadyToStart = true;
         }
@@ -299,9 +372,9 @@ namespace WSMGameStudio.RailroadSystem
             var MediumZone_Size = MediumZone_MinSize + ((MediumZone_MaxSize-MediumZone_MinSize) * SpeedPercentage);
         }
 // =================================================================================================
-// ==================================== HMI activate OnBoarding ====================================
+// ==================================== Handle Onboarding Events ===================================
 // =================================================================================================
-        IEnumerator OnBoardingQuery(){
+        IEnumerator OnBoardingQuery(float duration){
             if(ShowOnBoaring){
                 yield return new WaitForSeconds(6);
                 Debug.Log("onboarding...");
@@ -452,10 +525,10 @@ namespace WSMGameStudio.RailroadSystem
 // ==================================== Shuttle Exiting GameHandlerArea ===========================
 // =================================================================================================
         void OnTriggerExit(Collider other){
-            deactivateAllCars();
             // check if Object with tag "StartTransitionToNextRoute" exits Collider
             // if (other.CompareTag("Shuttle")){
             if (other.CompareTag("TransitionCollidorTriggered")){
+                deactivateAllCars();
                 //prepare Shuttle for next route
                 ReadyToEnterAgain = true;
                 // turn off engine
@@ -469,10 +542,12 @@ namespace WSMGameStudio.RailroadSystem
             float counter = 0;
             while (counter < duration){
                 counter += Time.deltaTime;
-                //Fade from 0 to 1
+                //Fade glass from 0 to 1
                 float alpha = Mathf.Lerp(0.3f, 1, counter / duration);
-                //Change alpha only
-                GlassMaterial.color = new Color(spriteColor.r, spriteColor.g, spriteColor.b, alpha);
+                GlassMaterial.color = new Color(glassColor.r, glassColor.g, glassColor.b, alpha);
+                //Fade roof glass from 0.8 to 1
+                float roofAlpha = Mathf.Lerp(0.8f, 1, counter / duration);
+                GlassRoofMaterial.color = new Color(roofColor.r, roofColor.g, roofColor.b, roofAlpha);
                 //Wait for a frame
                 yield return null;
             }
