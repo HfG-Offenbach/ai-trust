@@ -15,12 +15,12 @@ namespace WSMGameStudio.RailroadSystem
         public GameObject Glass;
         public Material GlassMaterial;
 
-        
+
         // shuttle zones
         public GameObject SmallZone;
         public GameObject MediumZone;
         public GameObject BigZone;
-        
+
         // camera relations
         public GameObject FPVCameraFolder;
 
@@ -35,7 +35,7 @@ namespace WSMGameStudio.RailroadSystem
         private int RouteCounterOpponent = 1;
         public bool shuttleReadyToStart = false;
         public bool ShowOnBoaring = false;
-        
+
         private float SpeedMin = 0;
         private float SpeedMax = 30;
         private float _currentSpeed;
@@ -88,10 +88,13 @@ namespace WSMGameStudio.RailroadSystem
 
         private bool ReadyToEnterAgain = true;
 
-// =================================================================================================
-// ============================= Start is called before the first frame update =====================
-// =================================================================================================
-        void Start(){
+
+
+        // =================================================================================================
+        // ============================= Start is called before the first frame update =====================
+        // =================================================================================================
+        void Start()
+        {
             // Correct internal test subject id number
             TestSubjectNR -= TestSubjectNR;
 
@@ -107,23 +110,27 @@ namespace WSMGameStudio.RailroadSystem
             timeFreeze = Time.time;
             Debug.Log("starting Time: " + timeFreeze);
             deactivateAllCars();
-            CSV_splitLines();            
+            CSV_splitLines();
         }
-// =================================================================================================
-// ============================= split CSV file in lines and provide new array =====================
-// =================================================================================================
-        void CSV_splitLines(){
-            CSV_Lines = csvFile.text.Split('\n'); 
+        // =================================================================================================
+        // ============================= split CSV file in lines and provide new array =====================
+        // =================================================================================================
+        void CSV_splitLines()
+        {
+            CSV_Lines = csvFile.text.Split('\n');
         }
-        void deactivateAllCars(){
-            for (int i = 0; i < CarRoutes.Length; i++){
+        void deactivateAllCars()
+        {
+            for (int i = 0; i < CarRoutes.Length; i++)
+            {
                 CarRoutes[i].SetActive(false);
             }
         }
-// =================================================================================================
-// ============================= Update is called once per frame ===================================
-// =================================================================================================
-        async void Update(){
+        // =================================================================================================
+        // ============================= Update is called once per frame ===================================
+        // =================================================================================================
+        async void Update()
+        {
             hotKeys();
             checkCurrentSpeed();
             FPVcameraAngleCorrection();
@@ -132,7 +139,8 @@ namespace WSMGameStudio.RailroadSystem
             ShuttleZones();
             ShuttleBrakeBehaviour();
             CheckBrakeFinished();
-            if(askingQuestions){
+            if (askingQuestions)
+            {
                 questionnaireBreak();
             }
         }
@@ -140,25 +148,29 @@ namespace WSMGameStudio.RailroadSystem
 
 
 
-// =================================================================================================
-// ============================= Break to ask questions ============================================
-// =================================================================================================
-        void questionnaireBreak(){
-            if (Input.GetKeyUp(KeyCode.Space)){
+        // =================================================================================================
+        // ============================= Break to ask questions ============================================
+        // =================================================================================================
+        void questionnaireBreak()
+        {
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
                 Debug.Log("Questionnaire Break is over");
-                askingQuestions = false;     
+                askingQuestions = false;
                 // sceneFadeIn();
                 StartCoroutine(sceneFadeIn(1));
             }
         }
-        IEnumerator sceneFadeIn(float duration){
+        IEnumerator sceneFadeIn(float duration)
+        {
             // Check CSV File
             CSV_translateLineObjectIntoEvents();
 
             // yield return new WaitForSeconds(4);
             float counter = 0;
             //Get current color
-            while (counter < duration){
+            while (counter < duration)
+            {
                 counter += Time.deltaTime;
                 //Fade from 0 to 1
                 float alpha = Mathf.Lerp(1, 0.3f, counter / duration);
@@ -172,18 +184,19 @@ namespace WSMGameStudio.RailroadSystem
             PseudoLocomotive.GetComponent<SplineBasedLocomotive>().EnginesOn = true;
             shuttleReadyToStart = true;
         }
-// =================================================================================================
-// ============================= Translate CSV lines --> define Testbed Events =====================
-// =================================================================================================
-        void CSV_translateLineObjectIntoEvents(){
-            Debug.Log("CSV Test Subject Nr.: " + (TestSubjectNR+1));
+        // =================================================================================================
+        // ============================= Translate CSV lines --> define Testbed Events =====================
+        // =================================================================================================
+        void CSV_translateLineObjectIntoEvents()
+        {
+            Debug.Log("CSV Test Subject Nr.: " + (TestSubjectNR + 1));
             Debug.Log("CSV line number: " + TestSubjectNR + "CSV line: " + CSV_Lines[TestSubjectNR]);
             // split line number X into its objects
             CSV_LineObjects = CSV_Lines[TestSubjectNR].Trim().Split(","[0]);
-            Debug.Log("Testbed: CSV RouteCounter / Line Object Nr.: " + RouteCounter + "Line Object: " + CSV_LineObjects[RouteCounter-1]);
+            Debug.Log("Testbed: CSV RouteCounter / Line Object Nr.: " + RouteCounter + "Line Object: " + CSV_LineObjects[RouteCounter - 1]);
 
             // select Object X current CSV Line
-            CSV_SingleLineObject = CSV_LineObjects[RouteCounter-1].Trim().Split("-"[0]);
+            CSV_SingleLineObject = CSV_LineObjects[RouteCounter - 1].Trim().Split("-"[0]);
             // read Single Values
             CSV_RouteNumber = CSV_SingleLineObject[0];
             CSV_Collision = CSV_SingleLineObject[1];
@@ -191,88 +204,108 @@ namespace WSMGameStudio.RailroadSystem
             CSV_LastRound = CSV_SingleLineObject[3];
             Debug.Log("TestbedEvent details: \n CSV_RouteNumber: " + CSV_RouteNumber + "\n CSV_Collision: " + CSV_Collision + "\n CSV_FeedbackType: " + CSV_FeedbackType + "\n CSV_LastRound: " + CSV_LastRound);
 
-            if(CSV_Collision == "1"){
+            if (CSV_Collision == "1")
+            {
                 Testbed_Collision = true;
-            } else {
+            }
+            else
+            {
                 Testbed_Collision = false;
             }
-            if(CSV_LastRound == "1"){
+            if (CSV_LastRound == "1")
+            {
                 Testbed_LastRound = true;
-            } else {
+            }
+            else
+            {
                 Testbed_LastRound = false;
             }
             defineTestbedEvents();
         }
-// =================================================================================================
-// ============================= define Testbed Events =============================================
-// =================================================================================================
-        void defineTestbedEvents(){
+        // =================================================================================================
+        // ============================= define Testbed Events =============================================
+        // =================================================================================================
+        void defineTestbedEvents()
+        {
             // Is a Collision happening?
-            if(Testbed_Collision){
+            if (Testbed_Collision)
+            {
                 Debug.Log("Route Nr.: " + (RouteCounter) + "TestbedEvents: Collision is true");
-                if( (RouteCounter) == 1    ){   CarRoutes[0].SetActive(true);  }
-                if( (RouteCounter) == 2    ){   CarRoutes[0].SetActive(true);  }
-                if( (RouteCounter) == 3    ){   CarRoutes[1].SetActive(true);  }
-                if( (RouteCounter) == 4    ){   CarRoutes[1].SetActive(true);  }
-                if( (RouteCounter) == 5    ){   CarRoutes[2].SetActive(true);  }
-                if( (RouteCounter) == 6    ){   CarRoutes[2].SetActive(true);  }
-                if( (RouteCounter) == 7    ){   CarRoutes[3].SetActive(true);  }
-                if( (RouteCounter) == 8    ){   CarRoutes[4].SetActive(true);  }
-                if( (RouteCounter) == 9    ){   CarRoutes[5].SetActive(true);  }
-                if( (RouteCounter) == 10   ){   CarRoutes[6].SetActive(true);  }
-                if( (RouteCounter) == 11   ){   CarRoutes[7].SetActive(true);  }
+                if ((RouteCounter) == 1) { CarRoutes[0].SetActive(true); }
+                if ((RouteCounter) == 2) { CarRoutes[0].SetActive(true); }
+                if ((RouteCounter) == 3) { CarRoutes[1].SetActive(true); }
+                if ((RouteCounter) == 4) { CarRoutes[1].SetActive(true); }
+                if ((RouteCounter) == 5) { CarRoutes[2].SetActive(true); }
+                if ((RouteCounter) == 6) { CarRoutes[2].SetActive(true); }
+                if ((RouteCounter) == 7) { CarRoutes[3].SetActive(true); }
+                if ((RouteCounter) == 8) { CarRoutes[4].SetActive(true); }
+                if ((RouteCounter) == 9) { CarRoutes[5].SetActive(true); }
+                if ((RouteCounter) == 10) { CarRoutes[6].SetActive(true); }
+                if ((RouteCounter) == 11) { CarRoutes[7].SetActive(true); }
                 // if( (RouteCounter) == 12   ){   CarRoutes[8].SetActive(true);  }
-                if( (RouteCounter) == 12   ){   CarRoutes[7].SetActive(true);  }
+                if ((RouteCounter) == 12) { CarRoutes[7].SetActive(true); }
 
-            } else {
+            }
+            else
+            {
                 Debug.Log("Route Nr.: " + (RouteCounter) + "TestbedEvents: Collision is false");
             }
 
             // Is it the last Round? 
-            if(Testbed_LastRound){
+            if (Testbed_LastRound)
+            {
                 Debug.Log("Route Nr.: " + (RouteCounter) + "TestbedEvents: Last Round is true");
-            } else {
+            }
+            else
+            {
                 Debug.Log("Route Nr.: " + (RouteCounter) + "TestbedEvents: Last Round is false");
             }
 
             // What is the Feedback Type?
-            if(CSV_FeedbackType == "0"){
+            if (CSV_FeedbackType == "0")
+            {
                 Debug.Log("Route Nr.: " + (RouteCounter) + "TestbedEvents: Feedback Type: pre-notification --> false");
                 brakeSignal = true;
                 preNotification = false;
             }
-            if(CSV_FeedbackType == "1"){
+            if (CSV_FeedbackType == "1")
+            {
                 Debug.Log("Route Nr.: " + (RouteCounter) + "TestbedEvents: Feedback Type: pre-notification --> 0.5 sec before brake");
                 brakeSignal = true;
                 preNotification = true;
                 timingOfNotification = 0.5f;
             }
-            if(CSV_FeedbackType == "2"){
+            if (CSV_FeedbackType == "2")
+            {
                 Debug.Log("Route Nr.: " + (RouteCounter) + "TestbedEvents: Feedback Type: pre-notification --> 1 sec before brake");
                 brakeSignal = true;
                 preNotification = true;
                 timingOfNotification = 0.0f;
             }
-            if(CSV_FeedbackType == "3"){
+            if (CSV_FeedbackType == "3")
+            {
                 Debug.Log("Route Nr.: " + (RouteCounter) + "TestbedEvents: Feedback Type: pre-notification --> nothing else");
                 brakeSignal = false;
                 preNotification = true;
                 timingOfNotification = 0.0f;
             }
         }
-// =================================================================================================
-// ==================================== Correct FPV Camera Angle =====================================
-// =================================================================================================
-        void FPVcameraAngleCorrection(){
-            if(RouteCounter == RouteCounterOpponent){
+        // =================================================================================================
+        // ==================================== Correct FPV Camera Angle =====================================
+        // =================================================================================================
+        void FPVcameraAngleCorrection()
+        {
+            if (RouteCounter == RouteCounterOpponent)
+            {
                 FPVCameraFolder.transform.rotation = Quaternion.Euler(Shuttle.transform.rotation.eulerAngles.x, Shuttle.transform.rotation.eulerAngles.y, Shuttle.transform.rotation.eulerAngles.z);
                 RouteCounterOpponent += 1;
             }
         }
-// =================================================================================================
-// ==================================== Check Current Speed =====================================
-// =================================================================================================
-        void checkCurrentSpeed(){
+        // =================================================================================================
+        // ==================================== Check Current Speed =====================================
+        // =================================================================================================
+        void checkCurrentSpeed()
+        {
             // check current speed of shuttle
             _currentSpeed = PseudoLocomotive.GetComponent<ILocomotive>().Speed_MPS;
             acceleration = ((_currentSpeed - lastSpeed) / Time.deltaTime);
@@ -280,113 +313,137 @@ namespace WSMGameStudio.RailroadSystem
             // calculate current speed in percentage
             SpeedPercentage = (_currentSpeed - SpeedMin) / (SpeedMax - SpeedMin);
         }
-// =================================================================================================
-// ==================================== Shuttle Zone Behaviour =====================================
-// =================================================================================================
-        void CheckBrakeFinished(){
-            if (acceleration == 0 ){
+        // =================================================================================================
+        // ==================================== Shuttle Zone Behaviour =====================================
+        // =================================================================================================
+        void CheckBrakeFinished()
+        {
+            if (acceleration == 0)
+            {
                 HMIBrakeDisplay.GetComponent<MeshRenderer>().enabled = false;
             }
         }
-// =================================================================================================
-// ==================================== Shuttle Zone Behaviour =====================================
-// =================================================================================================
-        void ShuttleZones(){
+        // =================================================================================================
+        // ==================================== Shuttle Zone Behaviour =====================================
+        // =================================================================================================
+        void ShuttleZones()
+        {
             // scale big zone
-            var BigZone_Size = BigZone_MinSize + ((BigZone_MaxSize-BigZone_MinSize) * SpeedPercentage);
+            var BigZone_Size = BigZone_MinSize + ((BigZone_MaxSize - BigZone_MinSize) * SpeedPercentage);
             BigZone.transform.localScale = new Vector3(BigZone_Size, 8, BigZone_Size);
             // scale medium zone
-            var MediumZone_Size = MediumZone_MinSize + ((MediumZone_MaxSize-MediumZone_MinSize) * SpeedPercentage);
+            var MediumZone_Size = MediumZone_MinSize + ((MediumZone_MaxSize - MediumZone_MinSize) * SpeedPercentage);
         }
-// =================================================================================================
-// ==================================== HMI activate OnBoarding ====================================
-// =================================================================================================
-        IEnumerator OnBoardingQuery(){
-            if(ShowOnBoaring){
+        // =================================================================================================
+        // ==================================== HMI activate OnBoarding ====================================
+        // =================================================================================================
+        IEnumerator OnBoardingQuery()
+        {
+            if (ShowOnBoaring)
+            {
                 yield return new WaitForSeconds(6);
                 Debug.Log("onboarding...");
                 deactivateOnBoarding();
-            } else {
+            }
+            else
+            {
                 Debug.Log(" NO onboarding...");
                 deactivateOnBoarding();
             }
         }
-        void deactivateOnBoarding(){
-            if (OnBoarding){ 
+        void deactivateOnBoarding()
+        {
+            if (OnBoarding)
+            {
                 OnBoarding.SetActive(false);    // hide onBoarding displays
             }
         }
-// =================================================================================================
-// ==================================== Shuttle Acceleration Behaviour =============================
-// =================================================================================================
-        void ShuttleAccelerationBaviour(){
-            if(shuttleReadyToStart){
-            Debug.Log("shuttle accelerating");
-                if(shuttleFirstTimeStanding){
+        // =================================================================================================
+        // ==================================== Shuttle Acceleration Behaviour =============================
+        // =================================================================================================
+        void ShuttleAccelerationBaviour()
+        {
+            if (shuttleReadyToStart)
+            {
+                Debug.Log("shuttle accelerating");
+                if (shuttleFirstTimeStanding)
+                {
                     timeFreezeAccelerationBaviour = Time.time;
                     PseudoLocomotive.GetComponent<SplineBasedLocomotive>().AccelerationRate = 0;
                 }
                 shuttleFirstTimeStanding = false;
 
                 var timeLimitAccelerationBaviour = timeFreezeAccelerationBaviour + 6;
-                if(Time.time < timeLimitAccelerationBaviour){
-                    PseudoLocomotive.GetComponent<SplineBasedLocomotive>().AccelerationRate = ( (-6.0f/(6f*6f)) * (Time.time - timeLimitAccelerationBaviour) * (Time.time - timeLimitAccelerationBaviour) )+ 6; 
+                if (Time.time < timeLimitAccelerationBaviour)
+                {
+                    PseudoLocomotive.GetComponent<SplineBasedLocomotive>().AccelerationRate = ((-6.0f / (6f * 6f)) * (Time.time - timeLimitAccelerationBaviour) * (Time.time - timeLimitAccelerationBaviour)) + 6;
                     // Debug.Log("accelerationRate: " +  PseudoLocomotive.GetComponent<SplineBasedLocomotive>().AccelerationRate);
-                } else if (Time.time > timeLimitAccelerationBaviour) {
+                }
+                else if (Time.time > timeLimitAccelerationBaviour)
+                {
                     shuttleFirstTimeStanding = true;
                     // PseudoLocomotive.GetComponent<SplineBasedLocomotive>().AccelerationRate = 0;
                     shuttleReadyToStart = false;
                 }
             }
         }
-// =================================================================================================
-// ==================================== Shuttle Curve Behaviour ====================================
-// =================================================================================================
-        void ShuttleCurveBehaviour(){
+        // =================================================================================================
+        // ==================================== Shuttle Curve Behaviour ====================================
+        // =================================================================================================
+        void ShuttleCurveBehaviour()
+        {
             float angle = PseudoLocomotive.transform.rotation.eulerAngles.y;
-                // ============================================================== define curve behavior
-                if (((angle/90) % 1) != 0){      // if rotation is not 90 or 180 or 270 and so on > reduce speed
-                    if (shuttleFirstTimeInCurve){
-                        shuttleDrivingStraight = false; 
-                        timeFreeze = Time.time;
-                        Debug.Log("time freeze: " + timeFreeze);
-                    } 
-                    shuttleFirstTimeInCurve = false;
+            // ============================================================== define curve behavior
+            if (((angle / 90) % 1) != 0)
+            {      // if rotation is not 90 or 180 or 270 and so on > reduce speed
+                if (shuttleFirstTimeInCurve)
+                {
+                    shuttleDrivingStraight = false;
+                    timeFreeze = Time.time;
+                    Debug.Log("time freeze: " + timeFreeze);
+                }
+                shuttleFirstTimeInCurve = false;
 
-                    // define acceleration at curve start
-                    var timeLimit = timeFreeze + 2;
-                    if(Time.time < timeLimit){
-                        PseudoLocomotive.GetComponent<SplineBasedLocomotive>().MaxSpeed = 20f;       // Change velocity
-                        PseudoLocomotive.GetComponent<SplineBasedLocomotive>().BrakingDecelerationRate = ( (-6.0f/(4.0f)) * (Time.time - timeLimit) * (Time.time - timeLimit) )+ 6 ; 
-                        // Debug.Log("BrakingDecelerationRate: " +  PseudoLocomotive.GetComponent<SplineBasedLocomotive>().BrakingDecelerationRate);
-                    }
-                    // define acceleration at curve end
-                    var secondTimeLimit = timeFreeze + 4;
-                    if(Time.time < secondTimeLimit && Time.time > timeLimit){
-                        PseudoLocomotive.GetComponent<SplineBasedLocomotive>().MaxSpeed = 30f;  
-                        PseudoLocomotive.GetComponent<SplineBasedLocomotive>().AccelerationRate = ( (-6.0f/(4.0f)) * (Time.time - secondTimeLimit) * (Time.time - secondTimeLimit) )+ 6 ; 
-                        // Debug.Log("BrakingDecelerationRate: " +  PseudoLocomotive.GetComponent<SplineBasedLocomotive>().BrakingDecelerationRate);
-                    }
+                // define acceleration at curve start
+                var timeLimit = timeFreeze + 2;
+                if (Time.time < timeLimit)
+                {
+                    PseudoLocomotive.GetComponent<SplineBasedLocomotive>().MaxSpeed = 20f;       // Change velocity
+                    PseudoLocomotive.GetComponent<SplineBasedLocomotive>().BrakingDecelerationRate = ((-6.0f / (4.0f)) * (Time.time - timeLimit) * (Time.time - timeLimit)) + 6;
+                    // Debug.Log("BrakingDecelerationRate: " +  PseudoLocomotive.GetComponent<SplineBasedLocomotive>().BrakingDecelerationRate);
                 }
-                if (((angle/90) % 1) == 0){     // if rotation is 90, 180, 270, 360,  and so on > max speed
-                    shuttleFirstTimeInCurve = true;
-                    shuttleDrivingStraight = true;
-                    // PseudoLocomotive.GetComponent<SplineBasedLocomotive>().MaxSpeed = 30f;  
+                // define acceleration at curve end
+                var secondTimeLimit = timeFreeze + 4;
+                if (Time.time < secondTimeLimit && Time.time > timeLimit)
+                {
+                    PseudoLocomotive.GetComponent<SplineBasedLocomotive>().MaxSpeed = 30f;
+                    PseudoLocomotive.GetComponent<SplineBasedLocomotive>().AccelerationRate = ((-6.0f / (4.0f)) * (Time.time - secondTimeLimit) * (Time.time - secondTimeLimit)) + 6;
+                    // Debug.Log("BrakingDecelerationRate: " +  PseudoLocomotive.GetComponent<SplineBasedLocomotive>().BrakingDecelerationRate);
                 }
+            }
+            if (((angle / 90) % 1) == 0)
+            {     // if rotation is 90, 180, 270, 360,  and so on > max speed
+                shuttleFirstTimeInCurve = true;
+                shuttleDrivingStraight = true;
+                // PseudoLocomotive.GetComponent<SplineBasedLocomotive>().MaxSpeed = 30f;  
+            }
         }
-// =================================================================================================
-// ==================================== Shuttle Brake Behaviour ==================================
-// =================================================================================================
-        void ShuttleBrakeBehaviour(){
+        // =================================================================================================
+        // ==================================== Shuttle Brake Behaviour ==================================
+        // =================================================================================================
+        void ShuttleBrakeBehaviour()
+        {
             // check if Car Collider is triggered?
-            if(ShuttleZoneCollider.GetComponent<ShuttleZoneDetectCar>().TriggerEnter){
+            if (ShuttleZoneCollider.GetComponent<ShuttleZoneDetectCar>().TriggerEnter)
+            {
                 StartCoroutine(activateNotificationSignal());
                 StartCoroutine(activeBrake());
                 StartCoroutine(activateEngine());
                 ShuttleZoneCollider.GetComponent<ShuttleZoneDetectCar>().TriggerEnter = false;
             }
         }
-        IEnumerator activateNotificationSignal(){      
+        IEnumerator activateNotificationSignal()
+        {
             // reduce speed
             PseudoLocomotive.GetComponent<SplineBasedLocomotive>().MaxSpeed = 20f;
 
@@ -396,9 +453,10 @@ namespace WSMGameStudio.RailroadSystem
             // CarColliderObeject.GetComponent<Renderer>().material.color = myColor;
 
             yield return new WaitForSeconds(timingOfNotification);
-            if(preNotification && shuttleFirstBraking){
+            if (preNotification && shuttleFirstBraking)
+            {
                 BrakeNotificaitonDisplay.GetComponent<MeshRenderer>().enabled = true;
-                Debug.Log("pre activateNotificationSignal signal on? " + BrakeNotificaitonDisplay.GetComponent<MeshRenderer>().enabled );
+                Debug.Log("pre activateNotificationSignal signal on? " + BrakeNotificaitonDisplay.GetComponent<MeshRenderer>().enabled);
             }
             shuttleFirstBraking = false;
 
@@ -407,18 +465,21 @@ namespace WSMGameStudio.RailroadSystem
             // yield return new WaitForSeconds(0.5f);
             // BrakeNotificaitonDisplay.GetComponent<MeshRenderer>().enabled = false;
         }
-        IEnumerator activeBrake(){
+        IEnumerator activeBrake()
+        {
             yield return new WaitForSeconds(1f);
             BrakeNotificaitonDisplay.GetComponent<MeshRenderer>().enabled = false;
             HMIBrakeDisplay.GetComponent<MeshRenderer>().enabled = true;
-            if(brakeSignal){
+            if (brakeSignal)
+            {
                 HMIBrakeDisplay.GetComponent<MeshRenderer>().enabled = true;
             }
             Debug.Log("activate brake: " + Time.time);
             PseudoLocomotive.GetComponent<SplineBasedLocomotive>().EnginesOn = false;
             PseudoLocomotive.GetComponent<SplineBasedLocomotive>().BrakingDecelerationRate = 40f;
         }
-        IEnumerator activateEngine(){
+        IEnumerator activateEngine()
+        {
             // yield on a new YieldInstruction that waits for 3 seconds.
             yield return new WaitForSeconds(3);
 
@@ -434,13 +495,15 @@ namespace WSMGameStudio.RailroadSystem
 
             shuttleFirstBraking = true;
         }
-// =================================================================================================
-// ==================================== Shuttle Entering GameHandlerArea ===========================
-// =================================================================================================
-        void OnTriggerEnter(Collider other){
+        // =================================================================================================
+        // ==================================== Shuttle Entering GameHandlerArea ===========================
+        // =================================================================================================
+        void OnTriggerEnter(Collider other)
+        {
             // check if Object with tag "TransitionCollidorTriggered" enters Collider
             // object with 'TransitionCollidorTriggered' Tag --> Shuttle --> TransitionCollidor
-            if (ReadyToEnterAgain && other.CompareTag("TransitionCollidorTriggered")){
+            if (ReadyToEnterAgain && other.CompareTag("TransitionCollidorTriggered"))
+            {
                 RouteCounter += 1;
                 Debug.Log("add to route number: " + RouteCounter);
                 // possible break
@@ -448,14 +511,16 @@ namespace WSMGameStudio.RailroadSystem
                 ReadyToEnterAgain = false;
             }
         }
-// =================================================================================================
-// ==================================== Shuttle Exiting GameHandlerArea ===========================
-// =================================================================================================
-        void OnTriggerExit(Collider other){
+        // =================================================================================================
+        // ==================================== Shuttle Exiting GameHandlerArea ===========================
+        // =================================================================================================
+        void OnTriggerExit(Collider other)
+        {
             deactivateAllCars();
             // check if Object with tag "StartTransitionToNextRoute" exits Collider
             // if (other.CompareTag("Shuttle")){
-            if (other.CompareTag("TransitionCollidorTriggered")){
+            if (other.CompareTag("TransitionCollidorTriggered"))
+            {
                 //prepare Shuttle for next route
                 ReadyToEnterAgain = true;
                 // turn off engine
@@ -465,9 +530,11 @@ namespace WSMGameStudio.RailroadSystem
                 // StartCoroutine(placeShuttleOnNextRoute(4));
             }
         }
-        IEnumerator sceneFadeOut(float duration){
+        IEnumerator sceneFadeOut(float duration)
+        {
             float counter = 0;
-            while (counter < duration){
+            while (counter < duration)
+            {
                 counter += Time.deltaTime;
                 //Fade from 0 to 1
                 float alpha = Mathf.Lerp(0.3f, 1, counter / duration);
@@ -477,16 +544,17 @@ namespace WSMGameStudio.RailroadSystem
                 yield return null;
             }
         }
-// =================================================================================================
-// ==================================== hot keys ===================================================
-// =================================================================================================
-        void hotKeys(){
-            if (Input.GetKeyUp(KeyCode.Alpha1)){    timingOfNotification = 1.0f;    }
-            if (Input.GetKeyUp(KeyCode.Alpha5)){    timingOfNotification = 0.5f;    }
-            if (Input.GetKeyUp(KeyCode.Alpha0)){    timingOfNotification = 0.0f;    }
+        // =================================================================================================
+        // ==================================== hot keys ===================================================
+        // =================================================================================================
+        void hotKeys()
+        {
+            if (Input.GetKeyUp(KeyCode.Alpha1)) { timingOfNotification = 1.0f; }
+            if (Input.GetKeyUp(KeyCode.Alpha5)) { timingOfNotification = 0.5f; }
+            if (Input.GetKeyUp(KeyCode.Alpha0)) { timingOfNotification = 0.0f; }
         }
-// =================================================================================================
-// =================================================================================================
+        // =================================================================================================
+        // =================================================================================================
     }
 }
 
