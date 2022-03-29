@@ -1,3 +1,5 @@
+![AI TRUST Logo](/../create-routes/assets/images/logos/hfg_white-01.png)
+
 # ai trust testbed
 
 ## 1. installation
