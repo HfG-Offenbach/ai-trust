@@ -352,22 +352,22 @@ namespace WSMGameStudio.RailroadSystem
             }
             if (CSV_FeedbackType == "1")
             {
-                Debug.Log("Route Nr.: " + (RouteCounter) + "TestbedEvents: Feedback Type: pre-notification --> 0.5 sec before brake");
+                Debug.Log("Route Nr.: " + (RouteCounter) + "TestbedEvents: Feedback Type: pre-notification --> 0.33 sec before brake");
                 brakeSignal = true;
                 preNotification = true;
-                timingOfNotification = 0.5f;
+                timingOfNotification = 0.66f;
             }
             if (CSV_FeedbackType == "2")
             {
-                Debug.Log("Route Nr.: " + (RouteCounter) + "TestbedEvents: Feedback Type: pre-notification --> 1 sec before brake");
+                Debug.Log("Route Nr.: " + (RouteCounter) + "TestbedEvents: Feedback Type: pre-notification --> 0.66 sec before brake");
                 brakeSignal = true;
                 preNotification = true;
-                timingOfNotification = 0.0f;
+                timingOfNotification = 0.33f;
             }
             if (CSV_FeedbackType == "3")
             {
-                Debug.Log("Route Nr.: " + (RouteCounter) + "TestbedEvents: Feedback Type: pre-notification --> nothing else");
-                brakeSignal = false;
+                Debug.Log("Route Nr.: " + (RouteCounter) + "TestbedEvents: Feedback Type: pre-notification -->  1 sec before brake");
+                brakeSignal = true;
                 preNotification = true;
                 timingOfNotification = 0.0f;
             }
