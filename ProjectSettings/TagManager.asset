@@ -14,6 +14,7 @@ TagManager:
   - ExportToCSV
   - QuestionnaireFactory
   - FeedbackElement
+  - CarCollider
   layers:
   - Default
   - TransparentFX
@@ -25,8 +26,8 @@ TagManager:
   - 
   - RailGuide
   - TrainWheels
-  - Operator UI
-  - 
+  - CarCollider
+  - OperatorUI
   - 
   - 
   - 
