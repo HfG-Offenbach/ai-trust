@@ -19,6 +19,9 @@ namespace WSMGameStudio.RailroadSystem
         public Material GlassMaterial;
         public Material GlassRoofMaterial;
 
+        // car collider material
+        public Material CarCollidorMaterial;
+        private Color carColliderColor;
 
         // shuttle zones
         public GameObject SmallZone;
@@ -29,7 +32,6 @@ namespace WSMGameStudio.RailroadSystem
         public GameObject FPVCameraFolder;
 
         // car relations
-        public GameObject CarColliderObeject;
         public GameObject ShuttleZoneCollider;
         // car routes
         public GameObject[] CarRoutes;
@@ -43,6 +45,7 @@ namespace WSMGameStudio.RailroadSystem
         private float SpeedMin = 0;
         private float SpeedMax = 30;
         private float _currentSpeed;
+        private float _currentSpeed_KMH;
         private float lastSpeed;
         private float acceleration;
         private float SpeedPercentage;
@@ -103,21 +106,27 @@ namespace WSMGameStudio.RailroadSystem
         // =================================================================================================
         void Start()
         {
+
+
             // Correct internal test subject id number
             TestSubjectNR -= TestSubjectNR;
 
+            // Materials: set ideal state
             glassColor = GlassMaterial.color;
             GlassMaterial.color = new Color(glassColor.r, glassColor.g, glassColor.b, GlassOpacity);
             roofColor = GlassRoofMaterial.color;
             GlassRoofMaterial.color = new Color(roofColor.r, roofColor.g, roofColor.b, RoofGlassOpacity);
+            carColliderColor = CarCollidorMaterial.color;
 
+            // Shuttle: set ideal state
             BrakeNotificaitonDisplay.GetComponent<MeshRenderer>().enabled = false;
             HMIBrakeDisplay.GetComponent<MeshRenderer>().enabled = false;
             PseudoLocomotive.GetComponent<SplineBasedLocomotive>().AccelerationRate = 0f;
             PseudoLocomotive.GetComponent<SplineBasedLocomotive>().BrakingDecelerationRate = 6f;
+
             StartCoroutine(OnBoardingQuery(2));
             timeFreeze = Time.time;
-            Debug.Log("starting Time: " + timeFreeze);
+
             deactivateAllCars();
             CSV_splitLines();
         }
@@ -154,8 +163,6 @@ namespace WSMGameStudio.RailroadSystem
                 questionnaireBreak();
             }
         }
-
-
         // =================================================================================================
         // ==================================== Open and Close Doors =======================================
         // =================================================================================================
@@ -260,7 +267,6 @@ namespace WSMGameStudio.RailroadSystem
             }
             turnOnEngine();
         }
-
         void turnOnEngine()
         {
             PseudoLocomotive.GetComponent<SplineBasedLocomotive>().EnginesOn = true;
@@ -313,20 +319,8 @@ namespace WSMGameStudio.RailroadSystem
             if (Testbed_Collision)
             {
                 Debug.Log("Route Nr.: " + (RouteCounter) + "TestbedEvents: Collision is true");
-                if ((RouteCounter) == 1) { CarRoutes[0].SetActive(true); }
-                if ((RouteCounter) == 2) { CarRoutes[0].SetActive(true); }
-                if ((RouteCounter) == 3) { CarRoutes[1].SetActive(true); }
-                if ((RouteCounter) == 4) { CarRoutes[1].SetActive(true); }
-                if ((RouteCounter) == 5) { CarRoutes[2].SetActive(true); }
-                if ((RouteCounter) == 6) { CarRoutes[2].SetActive(true); }
-                if ((RouteCounter) == 7) { CarRoutes[3].SetActive(true); }
-                if ((RouteCounter) == 8) { CarRoutes[4].SetActive(true); }
-                if ((RouteCounter) == 9) { CarRoutes[5].SetActive(true); }
-                if ((RouteCounter) == 10) { CarRoutes[6].SetActive(true); }
-                if ((RouteCounter) == 11) { CarRoutes[7].SetActive(true); }
-                // if( (RouteCounter) == 12   ){   CarRoutes[8].SetActive(true);  }
-                if ((RouteCounter) == 12) { CarRoutes[7].SetActive(true); }
-
+                CarRoutes[(RouteCounter-1)].SetActive(true);
+                // if ((RouteCounter) == 1) { CarRoutes[0].SetActive(true); }
             }
             else
             {
@@ -390,6 +384,8 @@ namespace WSMGameStudio.RailroadSystem
         {
             // check current speed of shuttle
             _currentSpeed = PseudoLocomotive.GetComponent<ILocomotive>().Speed_MPS;
+            _currentSpeed_KMH = PseudoLocomotive.GetComponent<ILocomotive>().Speed_KPH;
+            Debug.Log("speed in : " + _currentSpeed_KMH);
             acceleration = ((_currentSpeed - lastSpeed) / Time.deltaTime);
             lastSpeed = _currentSpeed;
             // calculate current speed in percentage
@@ -474,9 +470,17 @@ namespace WSMGameStudio.RailroadSystem
         // =================================================================================================
         void ShuttleCurveBehaviour()
         {
-            float angle = PseudoLocomotive.transform.rotation.eulerAngles.y;
+            float angle = System.Math.Abs(Mathf.Round(PseudoLocomotive.transform.rotation.eulerAngles.y));
+            Debug.Log("angle: " + angle);
             // ============================================================== define curve behavior
-            if (((angle / 90) % 1) != 0)
+            if( angle == 0 || ((angle / 90) % 1) == 0 )
+            // if ( ((angle / 90) % 1) == 0 || angle == 0)
+            {     // if rotation is 90, 180, 270, 360,  and so on > max speed
+                shuttleFirstTimeInCurve = true;
+                shuttleDrivingStraight = true;
+                // PseudoLocomotive.GetComponent<SplineBasedLocomotive>().MaxSpeed = 30f;  
+            } else
+            // if ( ((angle / 90) % 1) != 0 ) 
             {      // if rotation is not 90 or 180 or 270 and so on > reduce speed
                 if (shuttleFirstTimeInCurve)
                 {
@@ -495,20 +499,15 @@ namespace WSMGameStudio.RailroadSystem
                     // Debug.Log("BrakingDecelerationRate: " +  PseudoLocomotive.GetComponent<SplineBasedLocomotive>().BrakingDecelerationRate);
                 }
                 // define acceleration at curve end
-                var secondTimeLimit = timeFreeze + 4;
+                var secondTimeLimit = timeFreeze + 6;
                 if (Time.time < secondTimeLimit && Time.time > timeLimit)
                 {
                     PseudoLocomotive.GetComponent<SplineBasedLocomotive>().MaxSpeed = 30f;
-                    PseudoLocomotive.GetComponent<SplineBasedLocomotive>().AccelerationRate = ((-6.0f / (4.0f)) * (Time.time - secondTimeLimit) * (Time.time - secondTimeLimit)) + 6;
+                    PseudoLocomotive.GetComponent<SplineBasedLocomotive>().AccelerationRate = ((-6.0f / (9.0f)) * (Time.time - secondTimeLimit) * (Time.time - secondTimeLimit)) + 6;
                     // Debug.Log("BrakingDecelerationRate: " +  PseudoLocomotive.GetComponent<SplineBasedLocomotive>().BrakingDecelerationRate);
                 }
             }
-            if (((angle / 90) % 1) == 0)
-            {     // if rotation is 90, 180, 270, 360,  and so on > max speed
-                shuttleFirstTimeInCurve = true;
-                shuttleDrivingStraight = true;
-                // PseudoLocomotive.GetComponent<SplineBasedLocomotive>().MaxSpeed = 30f;  
-            }
+            
         }
         // =================================================================================================
         // ==================================== Shuttle Brake Behaviour ==================================
@@ -529,10 +528,9 @@ namespace WSMGameStudio.RailroadSystem
             // reduce speed
             PseudoLocomotive.GetComponent<SplineBasedLocomotive>().MaxSpeed = 20f;
 
-            // change color of car
-            var myColor = new Color(255, 0, 0, 0.1f);
             // car collider color
-            // CarColliderObeject.GetComponent<Renderer>().material.color = myColor;
+            float carColliderAlpha = 0.6f;
+            CarCollidorMaterial.color = new Color(carColliderColor.r, carColliderColor.g, carColliderColor.b, carColliderAlpha);
 
             yield return new WaitForSeconds(timingOfNotification);
             if (preNotification && shuttleFirstBraking)
@@ -564,6 +562,10 @@ namespace WSMGameStudio.RailroadSystem
         {
             // yield on a new YieldInstruction that waits for 3 seconds.
             yield return new WaitForSeconds(3);
+            // set Color of Car Collider back to ideal state
+            carColliderColor = CarCollidorMaterial.color;
+            float carColliderAlpha = 0.0f;
+            CarCollidorMaterial.color = new Color(carColliderColor.r, carColliderColor.g, carColliderColor.b, carColliderAlpha);
 
             // reset max speed to 30 kmh
             PseudoLocomotive.GetComponent<SplineBasedLocomotive>().MaxSpeed = 30f;
@@ -643,9 +645,3 @@ namespace WSMGameStudio.RailroadSystem
 }
 
 // coding on the dance floor
-// armin pushing
-// uni pc wsm and post processing already test
-// testing script changes
-// armins pc -> writing this line
-// uni pc -> steam VR installed + this line
-// armins pc -> steam VR works 
