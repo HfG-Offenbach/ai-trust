@@ -32,5 +32,13 @@ namespace Valve.VR
                 return SteamVR_Actions.questionnaire_radioScaleDown;
             }
         }
+        
+        public virtual SteamVR_Action_Boolean togglePanel
+        {
+            get
+            {
+                return SteamVR_Actions.questionnaire_togglePanel;
+            }
+        }
     }
 }
