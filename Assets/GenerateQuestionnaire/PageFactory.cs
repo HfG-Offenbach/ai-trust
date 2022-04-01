@@ -116,6 +116,38 @@ namespace VRQuestionnaireToolkit
 
             switch (qType)
             {
+                case "radio-sam":
+                    if (_qData.Count < QuestionPerPage)
+                    {
+                        for (int i = 0; i < _qData.Count; i++)
+                        {
+                            temp = Instantiate(RadioHorizontalPrefab) as GameObject;
+                            temp.name = "radioHorizontal_" + i;
+
+                            radioHorizontalRec = temp.GetComponent<RectTransform>();
+                            q_main = GameObject.Find("Q_Main");
+                            radioHorizontalRec.SetParent(q_main.GetComponent<RectTransform>());
+
+                            //ensuring correct placement and scaling in the UI
+                            text = temp.GetComponentInChildren<TextMeshProUGUI>();
+
+                            // If question mandatory -> add " * "
+                            if (_qData[i][2].AsBool)
+                                text.text = _qData[i][1] + " *";
+                            else
+                                text.text = _qData[i][1];
+
+                            text.transform.localPosition = new Vector3(0, 120 - (i * 92), text.transform.localPosition.z);
+                            SetRec(radioHorizontalRec);
+
+                            QuestionList.Add(temp.GetComponent<Radio>().CreateRadioQuestion(qId, qType, qInstructions, _qData[i][0], _qData[i][1], _qData[i][2].AsBool, _qData[i][3].AsArray, i, radioHorizontalRec));
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError("We currently only support up to 5 radioquestions per page");
+                    }
+                    break;
                 case "radio":
                     if (_qData.Count < QuestionPerPage)
                     {

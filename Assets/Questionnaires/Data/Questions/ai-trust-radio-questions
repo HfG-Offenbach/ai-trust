@@ -1,0 +1,54 @@
+{
+   "qTitle":"AI TRUST Questionnaire (Test)",
+   "qInstructions":"Please answer all questions....",
+   "qId":"ai-trust-breakscene-q-01",
+   "questions":[
+      {
+         "pId":"d-01",
+         "qType":"radio",
+         "qInstructions":"Please rate all measures by clicking a point on the scale",
+         "qData": [
+                  {
+                     "qId":"q1",
+                     "qText":"How excited are you currently?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  },
+                  {
+                     "qId":"q2",
+                     "qText":"How joyful are you currently?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  },
+                  {
+                     "qId":"q3",
+                     "qText":"How much in control do you currently feel?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  }
+
+
+         ]
+      }
+   ],
+   "qMessage":"You have completed the questionnaire",
+   "qAcknowledgments":"Initialising next round..."
+}

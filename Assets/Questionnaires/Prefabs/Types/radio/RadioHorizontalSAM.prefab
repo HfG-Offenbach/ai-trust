@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: 50}
+  m_AnchoredPosition: {x: 0, y: 60}
   m_SizeDelta: {x: 600, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2528763334945426985
@@ -60,7 +60,6 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -191,8 +190,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 18.25}
-  m_SizeDelta: {x: 270, y: 120}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8080259207330096828
 MonoBehaviour:
@@ -207,13 +206,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NumRadioButtons: 0
-  QuestionnaireId: 
   QId: 0
   QType: 
   QInstructions: 
   QText: 
   QMandatory: 0
   RadioButtons: {fileID: 3061007160899691119, guid: 644f7c84c03fe054a9094b36a489f23a,
+    type: 3}
+  NasaTLXButtons: {fileID: 3322381133147291256, guid: 7468eb088431ae94ebf49e0bf50157b1,
     type: 3}
   RadioList: []
 --- !u!114 &-2441485725959892776

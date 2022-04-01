@@ -69,6 +69,13 @@ namespace VRQuestionnaireToolkit
         void Update()
         {
             if (ConfigurationMode) AdjustTransform();
+
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                this.transform.localPosition = new Vector3(0.0f, 1.0f, 0.7f);
+                this.transform.localRotation = Quaternion.identity;
+                this.transform.localScale = new Vector3(0.003f, 0.003f, 0.003f);
+            }
         }
 
         void OnApplicationQuit()
@@ -99,6 +106,8 @@ namespace VRQuestionnaireToolkit
             // Press 0 to reset transform (position, rotation & scale)
             if (Input.GetKeyDown(KeyCode.Alpha0) || Input.GetKeyDown(KeyCode.Keypad0))
                 SetTransformToDefault();
+
+
         }
 
         /// <summary>
@@ -160,7 +169,7 @@ namespace VRQuestionnaireToolkit
         /// </summary>
         void SetTransformToDefault()
         {
-            this.transform.localPosition = new Vector3(0.0f, 1.0f, 6.0f);
+            this.transform.localPosition = new Vector3(0.0f, 1.0f, 0.0f);
             this.transform.localRotation = Quaternion.identity;
             this.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
         }
