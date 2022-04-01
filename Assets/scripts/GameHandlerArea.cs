@@ -1,11 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 namespace WSMGameStudio.RailroadSystem
 {
     public class GameHandlerArea : MonoBehaviour
     {
+
+        // light signal button
+        public GameObject LightSignalButton;
+        private bool LightSyncFirstTime = true;
 
         // shuttle relations
         public GameObject PseudoLocomotive;
@@ -73,6 +78,8 @@ namespace WSMGameStudio.RailroadSystem
 
         // CSV Route Playlist
         public TextAsset csvFile;
+        public TextAsset csvOutputFile;
+        private string csvOutputFilePath;
         private string[] CSV_Lines;
         private string[] CSV_LineObjects;
         private string[] CSV_SingleLineObject;
@@ -101,16 +108,17 @@ namespace WSMGameStudio.RailroadSystem
 
         private bool ReadyToEnterAgain = true;
 
+        private float PluxSyncTimeMarker;
+
         // =================================================================================================
         // ============================= Start is called before the first frame update =====================
         // =================================================================================================
         void Start()
         {
-
-
+            CSV_Output("Start");
             // Correct internal test subject id number
-            TestSubjectNR -= TestSubjectNR;
-
+            TestSubjectNR = TestSubjectNR - 1;
+            Debug.Log("csv testSubjectNR: " + TestSubjectNR);
             // Materials: set ideal state
             glassColor = GlassMaterial.color;
             GlassMaterial.color = new Color(glassColor.r, glassColor.g, glassColor.b, GlassOpacity);
@@ -149,6 +157,7 @@ namespace WSMGameStudio.RailroadSystem
         // =================================================================================================
         async void Update()
         {
+            LightSignalListner();
             hotKeys();
             doorHandler();
             checkCurrentSpeed();
@@ -517,6 +526,7 @@ namespace WSMGameStudio.RailroadSystem
             // check if Car Collider is triggered?
             if (ShuttleZoneCollider.GetComponent<ShuttleZoneDetectCar>().TriggerEnter)
             {
+                CSV_Output("BrakeEvent");
                 StartCoroutine(activateNotificationSignal());
                 StartCoroutine(activeBrake());
                 StartCoroutine(activateEngine());
@@ -638,6 +648,51 @@ namespace WSMGameStudio.RailroadSystem
             if (Input.GetKeyUp(KeyCode.Alpha1)) { timingOfNotification = 1.0f; }
             if (Input.GetKeyUp(KeyCode.Alpha5)) { timingOfNotification = 0.5f; }
             if (Input.GetKeyUp(KeyCode.Alpha0)) { timingOfNotification = 0.0f; }
+        }
+        // =================================================================================================
+        // ==================================== Light Singal Listner + save CSV Input ======================
+        // =================================================================================================
+        void LightSignalListner(){
+            if(LightSignalButton.GetComponent<startLightSync>().LightSyncButtonPressed && LightSyncFirstTime){
+                CSV_Output("PluxSyncEvent");
+                LightSyncFirstTime = false;
+            }
+        }
+        void CSV_Output(string EventType){
+            if(EventType == "Start"){
+                // define path of csvOutputFile.csv to append data
+                csvOutputFilePath = Application.dataPath + "/CSV/" + csvOutputFile.name + ".csv";
+                string DataToAppend= "\n" + "TestSubjectNr. " + TestSubjectNR + ",";
+                File.AppendAllText(csvOutputFilePath, DataToAppend);
+            }
+            if(EventType == "PluxSyncEvent"){
+                // mark time on PluxSync
+                PluxSyncTimeMarker = Time.time;
+
+                // string DataToAppend= "time: " + Mathf.Round(Time.time) + ", realtimeSinceStartup: " + Mathf.Round(Time.realtimeSinceStartup);
+                // File.AppendAllText(csvOutputFilePath, DataToAppend);
+
+                Debug.Log(EventType + " / Time.time: " + Time.time);
+                Debug.Log(EventType + " / Time.timeAsDouble: " + Time.realtimeSinceStartup);
+            }
+            if(EventType == "BrakeEvent"){
+                // CSV_RouteNumber
+                // CSV_Collision
+                // CSV_FeedbackType
+                // CSV_LastRound
+
+                float currentTime = Time.time - PluxSyncTimeMarker;
+
+                string timeOfBrake = Mathf.Round(currentTime) + ",";
+                string DataToAppend= CSV_RouteNumber + "-" + CSV_Collision  + "-" + CSV_FeedbackType + "-" + CSV_LastRound + "," + timeOfBrake;
+                File.AppendAllText(csvOutputFilePath, DataToAppend);
+                // time
+                Debug.Log(EventType + " / Time.time: " + Time.time);
+                Debug.Log(EventType + " / Time.timeAsDouble: " + Time.realtimeSinceStartup);
+            }
+
+
+
         }
         // =================================================================================================
         // =================================================================================================
