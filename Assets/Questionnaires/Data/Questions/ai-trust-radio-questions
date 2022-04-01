@@ -1,10 +1,505 @@
 {
    "qTitle":"AI TRUST Questionnaire (Test)",
-   "qInstructions":"Please answer all questions....",
-   "qId":"ai-trust-breakscene-q-01",
+   "qInstructions":"Please answer all questions.",
+   "qId":"ait-radio-sam-r01",
    "questions":[
       {
          "pId":"d-01",
+         "qType":"radio",
+         "qInstructions":"Please rate all measures by clicking a point on the scale",
+         "qData": [
+                  {
+                     "qId":"q1",
+                     "qText":"How excited are you currently?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  },
+                  {
+                     "qId":"q2",
+                     "qText":"How much in control do you currently feel?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  },
+                  {
+                     "qId":"q3",
+                     "qText":"How joyful are you currently?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  }
+
+
+         ]
+      },
+      {
+         "pId":"d-02",
+         "qType":"radio",
+         "qInstructions":"Please rate all measures by clicking a point on the scale",
+         "qData": [
+                  {
+                     "qId":"q1",
+                     "qText":"How excited are you currently?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  },
+                  {
+                     "qId":"q2",
+                     "qText":"How joyful are you currently?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  },
+                  {
+                     "qId":"q3",
+                     "qText":"How much in control do you currently feel?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  }
+
+
+         ]
+      },
+      {
+         "pId":"d-03",
+         "qType":"radio",
+         "qInstructions":"Please rate all measures by clicking a point on the scale",
+         "qData": [
+                  {
+                     "qId":"q1",
+                     "qText":"How excited are you currently?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  },
+                  {
+                     "qId":"q2",
+                     "qText":"How joyful are you currently?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  },
+                  {
+                     "qId":"q3",
+                     "qText":"How much in control do you currently feel?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  }
+
+
+         ]
+      },
+      {
+         "pId":"d-04",
+         "qType":"radio",
+         "qInstructions":"Please rate all measures by clicking a point on the scale",
+         "qData": [
+                  {
+                     "qId":"q1",
+                     "qText":"How excited are you currently?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  },
+                  {
+                     "qId":"q2",
+                     "qText":"How joyful are you currently?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  },
+                  {
+                     "qId":"q3",
+                     "qText":"How much in control do you currently feel?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  }
+
+
+         ]
+      },
+      {
+         "pId":"d-05",
+         "qType":"radio",
+         "qInstructions":"Please rate all measures by clicking a point on the scale",
+         "qData": [
+                  {
+                     "qId":"q1",
+                     "qText":"How excited are you currently?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  },
+                  {
+                     "qId":"q2",
+                     "qText":"How joyful are you currently?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  },
+                  {
+                     "qId":"q3",
+                     "qText":"How much in control do you currently feel?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  }
+
+
+         ]
+      },
+      {
+         "pId":"d-06",
+         "qType":"radio",
+         "qInstructions":"Please rate all measures by clicking a point on the scale",
+         "qData": [
+                  {
+                     "qId":"q1",
+                     "qText":"How excited are you currently?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  },
+                  {
+                     "qId":"q2",
+                     "qText":"How joyful are you currently?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  },
+                  {
+                     "qId":"q3",
+                     "qText":"How much in control do you currently feel?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  }
+
+
+         ]
+      },
+      {
+         "pId":"d-07",
+         "qType":"radio",
+         "qInstructions":"Please rate all measures by clicking a point on the scale",
+         "qData": [
+                  {
+                     "qId":"q1",
+                     "qText":"How excited are you currently?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  },
+                  {
+                     "qId":"q2",
+                     "qText":"How joyful are you currently?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  },
+                  {
+                     "qId":"q3",
+                     "qText":"How much in control do you currently feel?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  }
+
+
+         ]
+      },
+      {
+         "pId":"d-08",
+         "qType":"radio",
+         "qInstructions":"Please rate all measures by clicking a point on the scale",
+         "qData": [
+                  {
+                     "qId":"q1",
+                     "qText":"How excited are you currently?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  },
+                  {
+                     "qId":"q2",
+                     "qText":"How joyful are you currently?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  },
+                  {
+                     "qId":"q3",
+                     "qText":"How much in control do you currently feel?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  }
+
+
+         ]
+      },
+      {
+         "pId":"d-09",
+         "qType":"radio",
+         "qInstructions":"Please rate all measures by clicking a point on the scale",
+         "qData": [
+                  {
+                     "qId":"q1",
+                     "qText":"How excited are you currently?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  },
+                  {
+                     "qId":"q2",
+                     "qText":"How joyful are you currently?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  },
+                  {
+                     "qId":"q3",
+                     "qText":"How much in control do you currently feel?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  }
+
+
+         ]
+      },
+      {
+         "pId":"d-10",
+         "qType":"radio",
+         "qInstructions":"Please rate all measures by clicking a point on the scale",
+         "qData": [
+                  {
+                     "qId":"q1",
+                     "qText":"How excited are you currently?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  },
+                  {
+                     "qId":"q2",
+                     "qText":"How joyful are you currently?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  },
+                  {
+                     "qId":"q3",
+                     "qText":"How much in control do you currently feel?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  }
+
+
+         ]
+      },
+      {
+         "pId":"d-11",
+         "qType":"radio",
+         "qInstructions":"Please rate all measures by clicking a point on the scale",
+         "qData": [
+                  {
+                     "qId":"q1",
+                     "qText":"How excited are you currently?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  },
+                  {
+                     "qId":"q2",
+                     "qText":"How joyful are you currently?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  },
+                  {
+                     "qId":"q3",
+                     "qText":"How much in control do you currently feel?",
+                     "qMandatory":"true",
+                     "qOptions":[
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                     ]
+                  }
+
+
+         ]
+      },
+      {
+         "pId":"d-12",
          "qType":"radio",
          "qInstructions":"Please rate all measures by clicking a point on the scale",
          "qData": [

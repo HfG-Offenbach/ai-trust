@@ -13,8 +13,13 @@ public class startLightSync : MonoBehaviour
 
     private IEnumerator coroutine;
 
+    // public bool isActive;
+    public bool LightSyncButtonPressed = false;
+
     public void OpenLightPanel()
     {
+        LightSyncButtonPressed = true;
+
         if (lightPanel != null)
         {
             bool isActive = lightPanel.activeSelf;

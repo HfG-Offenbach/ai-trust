@@ -1,11 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 namespace WSMGameStudio.RailroadSystem
 {
     public class GameHandlerArea : MonoBehaviour
     {
+
+        // light signal button
+        public GameObject LightSignalButton;
+        private bool LightSyncFirstTime = true;
 
         // shuttle relations
         public GameObject PseudoLocomotive;
@@ -73,6 +78,8 @@ namespace WSMGameStudio.RailroadSystem
 
         // CSV Route Playlist
         public TextAsset csvFile;
+        public TextAsset csvOutputFile;
+        private string csvOutputFilePath;
         private string[] CSV_Lines;
         private string[] CSV_LineObjects;
         private string[] CSV_SingleLineObject;
@@ -101,16 +108,23 @@ namespace WSMGameStudio.RailroadSystem
 
         private bool ReadyToEnterAgain = true;
 
+        private float PluxSyncTimeMarker;
+
+        public GameObject QuestionnaireContainer;
+        public GameObject VRQuestionnaireToolkit;
+
+        private bool OnBoardingFinished = false;
+
         // =================================================================================================
         // ============================= Start is called before the first frame update =====================
         // =================================================================================================
         void Start()
         {
-
-
+            QuestionnaireContainer.SetActive(false);
+            CSV_Output("Start");
             // Correct internal test subject id number
-            TestSubjectNR -= TestSubjectNR;
-
+            TestSubjectNR = TestSubjectNR - 1;
+            Debug.Log("csv testSubjectNR: " + TestSubjectNR);
             // Materials: set ideal state
             glassColor = GlassMaterial.color;
             GlassMaterial.color = new Color(glassColor.r, glassColor.g, glassColor.b, GlassOpacity);
@@ -149,6 +163,7 @@ namespace WSMGameStudio.RailroadSystem
         // =================================================================================================
         async void Update()
         {
+            LightSignalListner();
             hotKeys();
             doorHandler();
             checkCurrentSpeed();
@@ -216,12 +231,11 @@ namespace WSMGameStudio.RailroadSystem
                 //Wait for a frame
                 yield return null;
             }
+            turnOnEngine();
+            // StartCoroutine(sceneFadeOut(3));
+            // yield return new WaitForSeconds(5);
+            // StartCoroutine(sceneFadeIn(1));
 
-            StartCoroutine(sceneFadeOut(3));
-            yield return new WaitForSeconds(5);
-            StartCoroutine(sceneFadeIn(1));
-            // yield return new WaitForSeconds(1);
-            // turnOnEngine();
 
         }
         // =================================================================================================
@@ -231,6 +245,14 @@ namespace WSMGameStudio.RailroadSystem
         {
             if (Input.GetKeyUp(KeyCode.Space))
             {
+                //     if (RouteCounter == 1)
+                //     {
+                //         askingQuestions = false;
+                //         StartCoroutine(closeDoors(2));
+                //     }
+                // }
+                // if (!QuestionnaireContainer.activeInHierarchy && OnBoardingFinished)
+                // {
 
                 if (RouteCounter == 1)
                 {
@@ -243,12 +265,12 @@ namespace WSMGameStudio.RailroadSystem
                     askingQuestions = false;
                     StartCoroutine(sceneFadeIn(1));
                 }
+                // OnBoardingFinished = false;
             }
         }
         IEnumerator sceneFadeIn(float duration)
         {
-            // Check CSV File
-            CSV_translateLineObjectIntoEvents();
+
 
             // yield return new WaitForSeconds(4);
             float counter = 0;
@@ -269,6 +291,8 @@ namespace WSMGameStudio.RailroadSystem
         }
         void turnOnEngine()
         {
+            // Check CSV File
+            CSV_translateLineObjectIntoEvents();
             PseudoLocomotive.GetComponent<SplineBasedLocomotive>().EnginesOn = true;
             shuttleReadyToStart = true;
         }
@@ -319,7 +343,7 @@ namespace WSMGameStudio.RailroadSystem
             if (Testbed_Collision)
             {
                 Debug.Log("Route Nr.: " + (RouteCounter) + "TestbedEvents: Collision is true");
-                CarRoutes[(RouteCounter-1)].SetActive(true);
+                CarRoutes[(RouteCounter - 1)].SetActive(true);
                 // if ((RouteCounter) == 1) { CarRoutes[0].SetActive(true); }
             }
             else
@@ -473,13 +497,14 @@ namespace WSMGameStudio.RailroadSystem
             float angle = System.Math.Abs(Mathf.Round(PseudoLocomotive.transform.rotation.eulerAngles.y));
             Debug.Log("angle: " + angle);
             // ============================================================== define curve behavior
-            if( angle == 0 || ((angle / 90) % 1) == 0 )
+            if (angle == 0 || ((angle / 90) % 1) == 0)
             // if ( ((angle / 90) % 1) == 0 || angle == 0)
             {     // if rotation is 90, 180, 270, 360,  and so on > max speed
                 shuttleFirstTimeInCurve = true;
                 shuttleDrivingStraight = true;
                 // PseudoLocomotive.GetComponent<SplineBasedLocomotive>().MaxSpeed = 30f;  
-            } else
+            }
+            else
             // if ( ((angle / 90) % 1) != 0 ) 
             {      // if rotation is not 90 or 180 or 270 and so on > reduce speed
                 if (shuttleFirstTimeInCurve)
@@ -507,7 +532,7 @@ namespace WSMGameStudio.RailroadSystem
                     // Debug.Log("BrakingDecelerationRate: " +  PseudoLocomotive.GetComponent<SplineBasedLocomotive>().BrakingDecelerationRate);
                 }
             }
-            
+
         }
         // =================================================================================================
         // ==================================== Shuttle Brake Behaviour ==================================
@@ -517,6 +542,7 @@ namespace WSMGameStudio.RailroadSystem
             // check if Car Collider is triggered?
             if (ShuttleZoneCollider.GetComponent<ShuttleZoneDetectCar>().TriggerEnter)
             {
+                CSV_Output("BrakeEvent");
                 StartCoroutine(activateNotificationSignal());
                 StartCoroutine(activeBrake());
                 StartCoroutine(activateEngine());
@@ -600,6 +626,7 @@ namespace WSMGameStudio.RailroadSystem
         // =================================================================================================
         void OnTriggerExit(Collider other)
         {
+
             // check if Object with tag "StartTransitionToNextRoute" exits Collider
             // if (other.CompareTag("Shuttle")){
             if (other.CompareTag("TransitionCollidorTriggered"))
@@ -629,6 +656,10 @@ namespace WSMGameStudio.RailroadSystem
                 //Wait for a frame
                 yield return null;
             }
+
+            // QuestionnaireContainer.SetActive(true);
+            // OnBoardingFinished = true;
+
         }
         // =================================================================================================
         // ==================================== hot keys ===================================================
@@ -638,6 +669,57 @@ namespace WSMGameStudio.RailroadSystem
             if (Input.GetKeyUp(KeyCode.Alpha1)) { timingOfNotification = 1.0f; }
             if (Input.GetKeyUp(KeyCode.Alpha5)) { timingOfNotification = 0.5f; }
             if (Input.GetKeyUp(KeyCode.Alpha0)) { timingOfNotification = 0.0f; }
+        }
+        // =================================================================================================
+        // ==================================== Light Singal Listner + save CSV Input ======================
+        // =================================================================================================
+        void LightSignalListner()
+        {
+            if (LightSignalButton.GetComponent<startLightSync>().LightSyncButtonPressed && LightSyncFirstTime)
+            {
+                CSV_Output("PluxSyncEvent");
+                LightSyncFirstTime = false;
+            }
+        }
+        void CSV_Output(string EventType)
+        {
+            if (EventType == "Start")
+            {
+                // define path of csvOutputFile.csv to append data
+                csvOutputFilePath = Application.dataPath + "/CSV/" + csvOutputFile.name + ".csv";
+                string DataToAppend = "\n" + "TestSubjectNr. " + TestSubjectNR + ",";
+                File.AppendAllText(csvOutputFilePath, DataToAppend);
+            }
+            if (EventType == "PluxSyncEvent")
+            {
+                // mark time on PluxSync
+                PluxSyncTimeMarker = Time.time;
+
+                // string DataToAppend= "time: " + Mathf.Round(Time.time) + ", realtimeSinceStartup: " + Mathf.Round(Time.realtimeSinceStartup);
+                // File.AppendAllText(csvOutputFilePath, DataToAppend);
+
+                Debug.Log(EventType + " / Time.time: " + Time.time);
+                Debug.Log(EventType + " / Time.timeAsDouble: " + Time.realtimeSinceStartup);
+            }
+            if (EventType == "BrakeEvent")
+            {
+                // CSV_RouteNumber
+                // CSV_Collision
+                // CSV_FeedbackType
+                // CSV_LastRound
+
+                float currentTime = Time.time - PluxSyncTimeMarker;
+
+                string timeOfBrake = Mathf.Round(currentTime) + ",";
+                string DataToAppend = CSV_RouteNumber + "-" + CSV_Collision + "-" + CSV_FeedbackType + "-" + CSV_LastRound + "," + timeOfBrake;
+                File.AppendAllText(csvOutputFilePath, DataToAppend);
+                // time
+                Debug.Log(EventType + " / Time.time: " + Time.time);
+                Debug.Log(EventType + " / Time.timeAsDouble: " + Time.realtimeSinceStartup);
+            }
+
+
+
         }
         // =================================================================================================
         // =================================================================================================

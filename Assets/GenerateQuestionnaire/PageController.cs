@@ -21,6 +21,22 @@ namespace VRQuestionnaireToolkit
         private GameObject _export;
         public List<GameObject> unansweredMandatoryQuestions;
 
+        // ai trust adding code:
+        private GameObject QuestionnaireContainer;
+        private bool checkFirstTime = true;
+
+        public void DeactivateQuestionnaire()
+        {
+            if (!checkFirstTime)
+            {
+                QuestionnaireContainer = GameObject.Find("Questionnaire");
+                QuestionnaireContainer.SetActive(false);
+
+            }
+            checkFirstTime = false;
+        }
+        // ai trust code end
+
         void Start()
         {
             //init necessary relationships
@@ -210,8 +226,8 @@ namespace VRQuestionnaireToolkit
             while (timer <= 1)
             {
                 timer += increment;
-                textObj.GetComponent<TextMeshProUGUI>().color = 
-                    Color.Lerp(Color.black, Color.red, Mathf.Abs(Mathf.Sin(3*Mathf.PI*timer))); // blink 3 times from black to red.
+                textObj.GetComponent<TextMeshProUGUI>().color =
+                    Color.Lerp(Color.black, Color.red, Mathf.Abs(Mathf.Sin(3 * Mathf.PI * timer))); // blink 3 times from black to red.
                 yield return new WaitForSeconds(increment);
             }
         }

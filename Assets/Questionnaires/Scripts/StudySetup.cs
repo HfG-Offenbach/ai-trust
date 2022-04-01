@@ -56,6 +56,8 @@ namespace VRQuestionnaireToolkit
 
         private string _path; // file path to write the remembered transform values to
 
+        private bool callFirstTime = true;
+
         void Start()
         {
             _path = Application.dataPath + "/Resources/saved_transform_values";
@@ -69,6 +71,7 @@ namespace VRQuestionnaireToolkit
         void Update()
         {
             if (ConfigurationMode) AdjustTransform();
+            if (!ConfigurationMode) SetTransformToDefault2();
 
             if (Input.GetKeyDown(KeyCode.Q))
             {
@@ -172,6 +175,16 @@ namespace VRQuestionnaireToolkit
             this.transform.localPosition = new Vector3(0.0f, 1.0f, 0.0f);
             this.transform.localRotation = Quaternion.identity;
             this.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+        }
+        void SetTransformToDefault2()
+        {
+            if (callFirstTime)
+            {
+                this.transform.localPosition = new Vector3(0.0f, 1.0f, 0.7f);
+                this.transform.localRotation = Quaternion.identity;
+                this.transform.localScale = new Vector3(0.003f, 0.003f, 0.003f);
+                callFirstTime = false;
+            }
         }
     }
 }
