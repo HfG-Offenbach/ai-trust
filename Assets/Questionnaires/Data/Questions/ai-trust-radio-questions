@@ -67,7 +67,7 @@
                   },
                   {
                      "qId":"q2",
-                     "qText":"How joyful are you currently?",
+                     "qText":"How much in control do you currently feel?",
                      "qMandatory":"true",
                      "qOptions":[
                         "0",
@@ -79,7 +79,7 @@
                   },
                   {
                      "qId":"q3",
-                     "qText":"How much in control do you currently feel?",
+                     "qText":"How joyful are you currently?",
                      "qMandatory":"true",
                      "qOptions":[
                         "0",
@@ -112,7 +112,7 @@
                   },
                   {
                      "qId":"q2",
-                     "qText":"How joyful are you currently?",
+                     "qText":"How much in control do you currently feel?",
                      "qMandatory":"true",
                      "qOptions":[
                         "0",
@@ -124,7 +124,7 @@
                   },
                   {
                      "qId":"q3",
-                     "qText":"How much in control do you currently feel?",
+                     "qText":"How joyful are you currently?",
                      "qMandatory":"true",
                      "qOptions":[
                         "0",
@@ -157,7 +157,7 @@
                   },
                   {
                      "qId":"q2",
-                     "qText":"How joyful are you currently?",
+                     "qText":"How much in control do you currently feel?",
                      "qMandatory":"true",
                      "qOptions":[
                         "0",
@@ -169,7 +169,7 @@
                   },
                   {
                      "qId":"q3",
-                     "qText":"How much in control do you currently feel?",
+                     "qText":"How joyful are you currently?",
                      "qMandatory":"true",
                      "qOptions":[
                         "0",
@@ -202,7 +202,7 @@
                   },
                   {
                      "qId":"q2",
-                     "qText":"How joyful are you currently?",
+                     "qText":"How much in control do you currently feel?",
                      "qMandatory":"true",
                      "qOptions":[
                         "0",
@@ -214,7 +214,7 @@
                   },
                   {
                      "qId":"q3",
-                     "qText":"How much in control do you currently feel?",
+                     "qText":"How joyful are you currently?",
                      "qMandatory":"true",
                      "qOptions":[
                         "0",
@@ -247,7 +247,7 @@
                   },
                   {
                      "qId":"q2",
-                     "qText":"How joyful are you currently?",
+                     "qText":"How much in control do you currently feel?",
                      "qMandatory":"true",
                      "qOptions":[
                         "0",
@@ -259,7 +259,7 @@
                   },
                   {
                      "qId":"q3",
-                     "qText":"How much in control do you currently feel?",
+                     "qText":"How joyful are you currently?",
                      "qMandatory":"true",
                      "qOptions":[
                         "0",
@@ -292,7 +292,7 @@
                   },
                   {
                      "qId":"q2",
-                     "qText":"How joyful are you currently?",
+                     "qText":"How much in control do you currently feel?",
                      "qMandatory":"true",
                      "qOptions":[
                         "0",
@@ -304,7 +304,7 @@
                   },
                   {
                      "qId":"q3",
-                     "qText":"How much in control do you currently feel?",
+                     "qText":"How joyful are you currently?",
                      "qMandatory":"true",
                      "qOptions":[
                         "0",
@@ -337,7 +337,7 @@
                   },
                   {
                      "qId":"q2",
-                     "qText":"How joyful are you currently?",
+                     "qText":"How much in control do you currently feel?",
                      "qMandatory":"true",
                      "qOptions":[
                         "0",
@@ -349,7 +349,7 @@
                   },
                   {
                      "qId":"q3",
-                     "qText":"How much in control do you currently feel?",
+                     "qText":"How joyful are you currently?",
                      "qMandatory":"true",
                      "qOptions":[
                         "0",
@@ -359,7 +359,6 @@
                         "4"
                      ]
                   }
-
 
          ]
       },
@@ -382,7 +381,7 @@
                   },
                   {
                      "qId":"q2",
-                     "qText":"How joyful are you currently?",
+                     "qText":"How much in control do you currently feel?",
                      "qMandatory":"true",
                      "qOptions":[
                         "0",
@@ -394,7 +393,7 @@
                   },
                   {
                      "qId":"q3",
-                     "qText":"How much in control do you currently feel?",
+                     "qText":"How joyful are you currently?",
                      "qMandatory":"true",
                      "qOptions":[
                         "0",
@@ -427,7 +426,7 @@
                   },
                   {
                      "qId":"q2",
-                     "qText":"How joyful are you currently?",
+                     "qText":"How much in control do you currently feel?",
                      "qMandatory":"true",
                      "qOptions":[
                         "0",
@@ -439,7 +438,7 @@
                   },
                   {
                      "qId":"q3",
-                     "qText":"How much in control do you currently feel?",
+                     "qText":"How joyful are you currently?",
                      "qMandatory":"true",
                      "qOptions":[
                         "0",
@@ -472,7 +471,7 @@
                   },
                   {
                      "qId":"q2",
-                     "qText":"How joyful are you currently?",
+                     "qText":"How much in control do you currently feel?",
                      "qMandatory":"true",
                      "qOptions":[
                         "0",
@@ -484,7 +483,7 @@
                   },
                   {
                      "qId":"q3",
-                     "qText":"How much in control do you currently feel?",
+                     "qText":"How joyful are you currently?",
                      "qMandatory":"true",
                      "qOptions":[
                         "0",
@@ -517,7 +516,7 @@
                   },
                   {
                      "qId":"q2",
-                     "qText":"How joyful are you currently?",
+                     "qText":"How much in control do you currently feel?",
                      "qMandatory":"true",
                      "qOptions":[
                         "0",
@@ -529,7 +528,7 @@
                   },
                   {
                      "qId":"q3",
-                     "qText":"How much in control do you currently feel?",
+                     "qText":"How joyful are you currently?",
                      "qMandatory":"true",
                      "qOptions":[
                         "0",

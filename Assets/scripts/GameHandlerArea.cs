@@ -115,15 +115,25 @@ namespace WSMGameStudio.RailroadSystem
 
         private bool OnBoardingFinished = false;
 
+        public GameObject VRPointer;
+
+        private GameObject FirstQuestionnairePage;
+        private GameObject LastQuestionnairePage;
+        public GameObject SAMContainer;
+
         // =================================================================================================
         // ============================= Start is called before the first frame update =====================
         // =================================================================================================
         void Start()
         {
-            QuestionnaireContainer.SetActive(false);
+
+
+            // QuestionnaireContainer.SetActive(false);
             CSV_Output("Start");
             // Correct internal test subject id number
             TestSubjectNR = TestSubjectNR - 1;
+            // TestSubjectNR -= TestSubjectNR;
+
             Debug.Log("csv testSubjectNR: " + TestSubjectNR);
             // Materials: set ideal state
             glassColor = GlassMaterial.color;
@@ -164,7 +174,7 @@ namespace WSMGameStudio.RailroadSystem
         async void Update()
         {
             LightSignalListner();
-            hotKeys();
+            // hotKeys();
             doorHandler();
             checkCurrentSpeed();
             FPVcameraAngleCorrection();
@@ -173,10 +183,58 @@ namespace WSMGameStudio.RailroadSystem
             ShuttleZones();
             ShuttleBrakeBehaviour();
             CheckBrakeFinished();
+            // if (askingQuestions)
+            // {
+            //     questionnaireBreak();
+            // }
+
             if (askingQuestions)
             {
+                // Turn Pointer On
+                VRPointer.SetActive(true);
                 questionnaireBreak();
             }
+            else
+            {
+                // turn Pointer Off
+                VRPointer.SetActive(false);
+            }
+
+            FirstQuestionnairePage = GameObject.Find("page_first");
+            LastQuestionnairePage = GameObject.Find("page_final");
+            if (Input.GetKeyUp(KeyCode.Alpha0))
+            {
+                if (QuestionnaireContainer.activeInHierarchy)
+                {
+                    QuestionnaireContainer.SetActive(false);
+                }
+                else
+                {
+                    QuestionnaireContainer.SetActive(true);
+                }
+            }
+
+            // if (FirstQuestionnairePage.activeInHierarchy || LastQuestionnairePage.activeInHierarchy){
+            if (Input.GetKeyUp(KeyCode.Alpha9))
+            {
+                if (SAMContainer.activeInHierarchy)
+                {
+                    SAMContainer.SetActive(false);
+                }
+                else
+                {
+                    SAMContainer.SetActive(true);
+                }
+
+
+
+                // SAMContainer.SetActive(false);
+            }
+            // else
+            // {
+            //     SAMContainer.SetActive(true);
+            // }
+
         }
         // =================================================================================================
         // ==================================== Open and Close Doors =======================================
@@ -191,7 +249,7 @@ namespace WSMGameStudio.RailroadSystem
             {
                 // if(RouteCounter == 2 && ReadyToEnterAgain){
                 Debug.Log("Shuttle arrived at the end");
-                StartCoroutine(openDoors(2));
+                // StartCoroutine(openDoors(2));
             }
         }
         IEnumerator openDoors(float duration)
