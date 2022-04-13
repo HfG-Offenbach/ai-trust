@@ -12,6 +12,7 @@ public class CaptureScreenshot : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.A)) {
             ScreenCapture.CaptureScreenshot($"aitrust-unityScreenShot{_shotIndex}.png", superSize);
+            _shotIndex++;
             Debug.Log("key pressed ");
         }
     }
