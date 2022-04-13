@@ -5,7 +5,7 @@ using UnityEngine;
 public class CaptureScreenshot : MonoBehaviour
 {
 
-    public int superSize = 2;
+    public int superSize = 3;
     private int _shotIndex = 0;
 
     private void Update () 
