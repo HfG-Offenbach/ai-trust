@@ -6,7 +6,6 @@ namespace WSMGameStudio.RailroadSystem
 {
     public class GameHandlerArea : MonoBehaviour
     {
-
         // shuttle relations
         public GameObject PseudoLocomotive;
         public GameObject Shuttle;
@@ -143,8 +142,90 @@ namespace WSMGameStudio.RailroadSystem
             {
                 questionnaireBreak();
             }
+
+
+            // add start (2) stop (3) functionality 
+            if(Input.GetKeyUp(KeyCode.Alpha2)){
+                StartCoroutine(activeBrake());
+            }
+            if(Input.GetKeyUp(KeyCode.Alpha3)){
+                StartCoroutine(activateEngine());
+            }
+            if(Input.GetKeyUp(KeyCode.Alpha8)){
+                Time.timeScale = 1;
+            }
+
         }
 
+        // x 13.2619 y -0.7 z 35.61
+        // x 20 y -225 z 0
+        // x 100 y 100 z 100
+
+        public GameObject cameraIntersection;
+        public GameObject ShuttleZoneRings;
+        public GameObject CarForVideo;
+
+        IEnumerator videoCameraZoom()
+        {
+            float blenderCameraValue = 3.65f;
+
+            cameraIntersection.GetComponent<Camera>().orthographicSize = blenderCameraValue; 
+
+            // Zoom Out
+            yield return new WaitForSeconds(7);
+            float cameraCounter = 0;
+            float cameraDuration = 1;
+            //Get current color
+            while (cameraCounter < cameraDuration)
+            {
+                cameraCounter += Time.deltaTime;
+                //Fade from 3 to 10
+                float cameraSize = Mathf.Lerp(blenderCameraValue, 40f, cameraCounter / cameraDuration);
+                //Change camera size
+                cameraIntersection.GetComponent<Camera>().orthographicSize = cameraSize;                
+                //Wait for a frame
+                yield return null;
+            }
+
+            // Zoom In
+            yield return new WaitForSeconds(3);
+            cameraCounter = 0;
+            cameraDuration = 1;
+            while (cameraCounter < cameraDuration)
+            {
+                cameraCounter += Time.deltaTime;
+                //Fade from 40 to 10
+                float cameraSize = Mathf.Lerp(40f, 10f, cameraCounter / cameraDuration);
+                //Change camera size
+                cameraIntersection.GetComponent<Camera>().orthographicSize = cameraSize;                
+                //Wait for a frame
+                yield return null;
+            }
+            
+            // stop car
+            yield return new WaitForSeconds(1.74f);
+            // turn car engine off
+            // CarForVideo.GetComponent<SplineBasedLocomotive>().EnginesOn = false;
+            // CarForVideo.GetComponent<SplineBasedLocomotive>().EmergencyBrakes = true;
+
+            // Time.timeScale = 0;
+
+            //activate Shuttle Zone Rings
+            yield return new WaitForSeconds(1);
+            cameraCounter = 0;
+            cameraDuration = 1;
+            while (cameraCounter < cameraDuration)
+            {
+                cameraCounter += Time.deltaTime;
+                // Scall from 0 to 6.6
+                float RingSize = Mathf.Lerp(0f, 6.6f, cameraCounter / cameraDuration);
+                //Change Shuttle Zone Rings scale
+                ShuttleZoneRings.transform.localScale = new Vector3(RingSize, RingSize, 6.6f);
+                //Wait for a frame
+                yield return null;
+            }
+
+        }
 
 
 
@@ -153,12 +234,26 @@ namespace WSMGameStudio.RailroadSystem
         // =================================================================================================
         void questionnaireBreak()
         {
+ 
+            GlassMaterial.color = new Color(spriteColor.r, spriteColor.g, spriteColor.b, 0);
+
+
+            // StartCoroutine(sceneFadeIn(1));
             if (Input.GetKeyUp(KeyCode.Space))
             {
                 Debug.Log("Questionnaire Break is over");
                 askingQuestions = false;
+
                 // sceneFadeIn();
-                StartCoroutine(sceneFadeIn(1));
+                // StartCoroutine(sceneFadeIn(1));
+
+                CSV_translateLineObjectIntoEvents();
+                PseudoLocomotive.GetComponent<SplineBasedLocomotive>().EnginesOn = true;
+                shuttleReadyToStart = true;
+
+                
+                StartCoroutine(videoCameraZoom());
+
             }
         }
         IEnumerator sceneFadeIn(float duration)
@@ -490,7 +585,8 @@ namespace WSMGameStudio.RailroadSystem
             Debug.Log("start engine: " + Time.time);
             shuttleReadyToStart = true;
             Debug.Log("ready to go? :" + shuttleReadyToStart);
-            PseudoLocomotive.GetComponent<SplineBasedLocomotive>().EnginesOn = true;
+            // turn engine back on
+            // PseudoLocomotive.GetComponent<SplineBasedLocomotive>().EnginesOn = true;
             PseudoLocomotive.GetComponent<SplineBasedLocomotive>().BrakingDecelerationRate = 6f;
 
             shuttleFirstBraking = true;
